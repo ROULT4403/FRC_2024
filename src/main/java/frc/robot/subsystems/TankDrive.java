@@ -3,73 +3,89 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
-public class TankDrive extends SubsystemBase {
-  private final CANSparkMax m_right_up = new CANSparkMax(Constants.ID_motors.m_right_up, MotorType.kBrushless);
-  private final CANSparkMax m_right_down = new CANSparkMax(Constants.ID_motors.m_right_down, MotorType.kBrushless);  
-  
-  private final CANSparkMax m_left_up = new CANSparkMax(Constants.ID_motors.m_left_up, MotorType.kBrushless);
-  private final CANSparkMax m_left_down = new CANSparkMax(Constants.ID_motors.m_left_down, MotorType.kBrushless);
+import static frc.robot.Constants.TankDriveConstants.*;
+import static frc.robot.Constants.ElectronicConstants.*;
 
-  private final DifferentialDrive m_drive = new DifferentialDrive(m_right_up, m_left_up);
+public class TankDrive extends SubsystemBase
+{
+  // The tank drive's motor controllers are defined here...
+  private final CANSparkMax leaderLeft = new CANSparkMax(sparkMaxIDs[0], neoMotorType);
+  private final CANSparkMax followLeft = new CANSparkMax(sparkMaxIDs[1], neoMotorType);
+  private final CANSparkMax leaderRight = new CANSparkMax(sparkMaxIDs[2], neoMotorType);
+  private final CANSparkMax followRight = new CANSparkMax(sparkMaxIDs[3], neoMotorType);
 
-  private final AHRS navX = new AHRS(SPI.Port.kMXP);
+  // The tank drive's encoders/sensors are defined here...
+  private final DutyCycleEncoder leftEncoder = new DutyCycleEncoder(encoderChannels[0]);
+  private final DutyCycleEncoder rightEncoder = new DutyCycleEncoder(encoderChannels[1]);
+  private final AHRS navx = new AHRS(navxPort);
 
-  private final DutyCycleEncoder encoder_left = new DutyCycleEncoder(3);
-  private final DutyCycleEncoder encoder_right = new DutyCycleEncoder(4);
+  // The differential drive is defined here...
+  private final DifferentialDrive differentialDrive = new DifferentialDrive(leaderLeft, leaderRight);
 
+  /** Creates a new Tank Drive. */
+  public TankDrive()
+  {
+    // The motors' modes are defined here...
+    leaderLeft.setIdleMode(neoBrakeMode);
+    followLeft.setIdleMode(neoBrakeMode);
+    leaderRight.setIdleMode(neoBrakeMode);
+    followRight.setIdleMode(neoBrakeMode);
 
-  /** Creates a new TankDrive. */
-  public TankDrive() {
-    //Motores drive
-    m_right_down.setInverted(true);
-    m_right_up.setInverted(true);
+    // The motor groups are defined here...
+    followLeft.follow(leaderLeft);
+    followRight.follow(leaderRight);
 
-    m_right_down.follow(m_right_up);
-    m_left_down.follow(m_left_up); 
+    // The encoders' distance per rotation are defined here...
+    leftEncoder.setDistancePerRotation(chassisDistancePerRotation);
+    rightEncoder.setDistancePerRotation(chassisDistancePerRotation);
 
-    m_drive.setDeadband(0.052);
+    // The deadband is defined here...
+    differentialDrive.setDeadband(chassisDeadband);
+  }
 
-    //Encoders  absolutos
-    encoder_left.reset();
-    encoder_right.reset();
+  /** Use to drive the chassis... */
+  public void drive(double speed, double rot)
+  {
+    differentialDrive.arcadeDrive(speed, rot);
+  }
 
-    m_left_down.setIdleMode(IdleMode.kBrake);                  //-- Mod motors --//
-    m_right_down.setIdleMode(IdleMode.kBrake);                 //---------------//
-    m_left_up.setIdleMode(IdleMode.kBrake);                    //---------------//
-    m_right_up.setIdleMode(IdleMode.kBrake);                   //---------------//
-     
-    encoder_left.setDistancePerRotation(Constants.OperatorConstants.calculatedistance);
-    encoder_right.setDistancePerRotation(Constants.OperatorConstants.calculatedistance);
+  /** Use to get the chassis' distance... */
+  public double getMeasurement()
+  {
+    // Return the process variable measurement here...
+    double leftDistance = leftEncoder.getDistance();
+    double rightDistance = rightEncoder.getDistance();
+    return (leftDistance + rightDistance) / 2;
+  }
+
+  /** Use to get the chassis' direction... */
+  public double getDirection()
+  {
+    return navx.getRotation2d().getDegrees();
+  }
+
+  /** Use to reset all encoders/sensors */
+  public void reset()
+  {
+    navx.reset();
+
+    leftEncoder.reset();
+    rightEncoder.reset();
   }
 
   @Override
-  public void periodic() {
-    SmartDashboard.putNumber("Eco_right",encoder_right.getDistance());
-    SmartDashboard.putNumber("Eco_left", encoder_left.getDistance());
-
-    SmartDashboard.putBoolean("Conect_eco_right", encoder_right.isConnected());
-    SmartDashboard.putBoolean("Concet_eco_left", encoder_left.isConnected());
-
-    SmartDashboard.putNumber("Distance", getDistance());
-  }
-
-  public void drive(double speed, double rot){
-    m_drive.arcadeDrive(speed*1.5, rot*0.75);
-  }
-
-  public double getDistance(){
-    return (-encoder_left.getDistance()+ encoder_right.getDistance())/2;
+  public void periodic()
+  {
+    // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Distance", getMeasurement());
   }
 }
