@@ -56,7 +56,7 @@ public final class Constants
     public static final int[] encoderChannels = new int[] {0, 0, 0};
     public static final int limitSwitchChannel = 0;
     public static final Port navxPort = SPI.Port.kMXP;
-    public static final I2C.Port colorSensorPort = I2C.Port.kOnboard;
+    public static final I2C.Port distanceSensorPort = I2C.Port.kOnboard;
 
     // The motors' RPM are defined here...
     public static final int neoRPM = 5676;
@@ -67,10 +67,8 @@ public final class Constants
   public static class TankDriveConstants
   {
     // The distance per rotation is defined here...
-    private static final int driveEncoderCPR = 0;
     private static final double wheelDiameterMeters = Units.inchesToMeters(0);
-    public static final double chassisDistancePerRotation = 
-    ((wheelDiameterMeters * Math.PI) / (double) driveEncoderCPR) * driveEncoderCPR;
+    public static final double chassisDistancePerRotation = wheelDiameterMeters * Math.PI;
 
     // The controllers deadbands are defined here...
     public static final double chassisDeadband = 0.052;
@@ -90,39 +88,11 @@ public final class Constants
     public static final double limitProximity = 0;
   }
 
-  /** The shooter values are defined here... */
-  public static class ShooterConstants
-  {
-    // The PID and Feedforward gains are defined here...
-    public static final double shooterP = 0;
-    public static final double shooterI = 0;
-    public static final double shooterD = 0;
-    public static final double shooterS = 0;
-    public static final double shooterV = 0;
-
-    // The shooter's setpoints are defined here...
-    public static final double closeShoot = 0;
-    public static final double largeShoot = 0;
-  }
-
   /** The wrist values are defined here... */
   public static class WristConstants
   {
-    // The PID and Feedforward gains are defined here...
-    public static final double wristP = 0;
-    public static final double wristI = 0;
-    public static final double wristD = 0;
-    public static final double wristS = 0;
-    public static final double wristG = 0;
-    public static final double wristV = 0;
-    public static final double wristMaxV = 0;
-    public static final double wristMaxA = 0;
-
     // The distance per rotation is defined here...
     public static final double wristDistancePerRotation = 2 * Math.PI;
-
-    // The shooter's tolerance is defined here...
-    public static final double wristTolerance = 0;
 
     // The controller's deadband is defined here...
     public static final double wristDeadband = 0;
@@ -135,28 +105,11 @@ public final class Constants
 
     // The wrist's maximum are defined here...
     public static final double wristDriveMaxRot = wristPhysicalMaxRot / 4;
-
-    // The wrist's setpoints are defined here...
-    public static final double saveWrist = 0;
-    public static final double engandeWrist = 0;
   }
 
   /** The climber values are defined here... */
   public static class ClimberConstants
   {
-    // The PID and Feedforward gains are defined here...
-    public static final double climberP = 0;
-    public static final double climberI = 0;
-    public static final double climberD = 0;
-    public static final double climberS = 0;
-    public static final double climberG = 0;
-    public static final double climberV = 0;
-    public static final double climberMaxV = 0;
-    public static final double climberMaxA = 0;
-
-    // The shooter's tolerance is defined here...
-    public static final double climberTolerance = 0;
-
     // The controller's deadband is defined here...
     public static final double climberDeadband = 0;
 
@@ -171,8 +124,5 @@ public final class Constants
 
     // The wrist's maximum are defined here...
     public static final double climberDriveMaxSpeed = climberPhysicalMaxSpeed / 4;
-
-    // The climber's setpoint is defined here...
-    public static final double upClimber = 0;
   }
 }

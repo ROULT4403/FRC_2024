@@ -5,10 +5,10 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.revrobotics.ColorSensorV3;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Extras.Rev2mDistanceSensor;
+
 import static frc.robot.Constants.ElectronicConstants.*;
 import static frc.robot.Constants.IntakeConstants.*;
 
@@ -18,9 +18,7 @@ public class Intake extends SubsystemBase
   private final TalonFX intake = new TalonFX(talonFXIDs[0]);
   
   // The intake's color sensor functions are defined here...
-  private final ColorSensorV3 colorSensor = new ColorSensorV3(colorSensorPort);
-  private final double IR = colorSensor.getIR();
-  private final double proximity = colorSensor.getProximity();
+  private final Rev2mDistanceSensor distanceSensor = new Rev2mDistanceSensor(distanceSensorPort);
 
   /** Creates a new Intake. */
   public Intake()
@@ -36,7 +34,7 @@ public class Intake extends SubsystemBase
   public void take(double output)
   {
     // The intake will stops after reaching the proximity limit
-    if (proximity <= limitProximity)
+    if (distanceSensor.getRange() <= limitProximity)
     {
       intake.set(output);
     }
@@ -56,7 +54,6 @@ public class Intake extends SubsystemBase
   public void periodic()
   {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("IR", IR);
-    SmartDashboard.putNumber("Proximity", proximity);
+    SmartDashboard.putNumber("Distance", distanceSensor.getRange());
   }
 }

@@ -4,12 +4,12 @@
 
 package frc.robot.commands;
 
-import java.util.function.Supplier;
-
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Wrist;
 import static frc.robot.Constants.WristConstants.*;
+
+import java.util.function.Supplier;
 
 public class WristMove extends Command
 {
@@ -19,10 +19,10 @@ public class WristMove extends Command
   private final SlewRateLimiter limiter;
 
   /** Creates a new WristCommand. */
-  public WristMove(Wrist wrist, Supplier<Double> joystick)
+  public WristMove(Wrist wristSubsystem, Supplier<Double> joystick)
   {
     // Gives value to the paramenters
-    this.wrist = wrist;
+    this.wrist = wristSubsystem;
     this.joystick = joystick;
     this.limiter = new SlewRateLimiter(wristDriveMaxRot);
 
@@ -48,16 +48,12 @@ public class WristMove extends Command
     speed = limiter.calculate(speed) * wristDriveMaxRot;
 
     // Sends the speeds to the wrist
-    wrist.manualWrist(speed);
+    wrist.moveWrist(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted)
-  {
-    // Stops the wrist
-    wrist.manualWrist(0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

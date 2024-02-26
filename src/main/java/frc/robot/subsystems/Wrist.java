@@ -6,16 +6,14 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 
-import edu.wpi.first.math.controller.ArmFeedforward;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import static frc.robot.Constants.ElectronicConstants.*;
 import static frc.robot.Constants.WristConstants.*;
 
-public class Wrist extends ProfiledPIDSubsystem
+public class Wrist extends SubsystemBase
 {
   // The wrist's motor controller is defined here...
   private final CANSparkMax wrist = new CANSparkMax(sparkMaxIDs[6], neoMotorType);
@@ -23,21 +21,9 @@ public class Wrist extends ProfiledPIDSubsystem
   // The wrist's encoder is defined here...
   private final DutyCycleEncoder wristEncoder = new DutyCycleEncoder(encoderChannels[2]);
 
-  // The Feedforward used by the wrist
-  private final ArmFeedforward wristFeedforward = new ArmFeedforward(wristS, wristG, wristV);
-
   /** Creates a new WristPID. */
   public Wrist()
   {
-    super(
-        // The ProfiledPIDController used by the subsystem
-        new ProfiledPIDController(
-            wristP,
-            wristI,
-            wristD,
-            // The motion profile constraints
-            new TrapezoidProfile.Constraints(wristMaxV, wristMaxA)));
-
     // The motor's mode is defined here...
     wrist.setIdleMode(neoBrakeMode);
 
@@ -46,23 +32,15 @@ public class Wrist extends ProfiledPIDSubsystem
 
     // The encoders' distance per rotation are defined here...
     wristEncoder.setDistancePerRotation(wristDistancePerRotation);
-
-    // The subsystem's tolerance is defined here...
-    getController().setTolerance(wristTolerance);
   }
 
   /** Use to set the wrist's output... */
-  @Override
-  public void useOutput(double output, TrapezoidProfile.State setpoint)
+  public void moveWrist(double output)
   {
-    // Use the output and feedforward to activate the motor
-    double feedforward = wristFeedforward.calculate(setpoint.position, setpoint.velocity);
-
-    wrist.set(output + feedforward);
+    wrist.set(output);
   }
 
   /** Use to get the wrist's position... */
-  @Override
   public double getMeasurement()
   {
     // Return the process variable measurement here
@@ -74,11 +52,5 @@ public class Wrist extends ProfiledPIDSubsystem
   {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Wrist Pos", getMeasurement());
-  }
-
-  /** Use to move manually... */
-  public void manualWrist(double output)
-  {
-    wrist.set(output);
   }
 }

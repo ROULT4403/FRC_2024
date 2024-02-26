@@ -4,13 +4,13 @@
 
 package frc.robot.commands;
 
-import java.util.function.Supplier;
-
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Climber;
 
 import static frc.robot.Constants.ClimberConstants.*;
+
+import java.util.function.Supplier;
 
 public class ClimberMove extends Command
 {
@@ -21,10 +21,10 @@ public class ClimberMove extends Command
 
   /** Creates a new ClimberMove. */
   public ClimberMove
-  (Climber climber, Supplier<Double> joystick, SlewRateLimiter limiter)
+  (Climber climberSubsystem, Supplier<Double> joystick)
   {
     // Gives value to the paramenters
-    this.climber = climber;
+    this.climber = climberSubsystem;
     this.joystick = joystick;
     this.limiter = new SlewRateLimiter(climberDriveMaxSpeed);
 
@@ -55,10 +55,7 @@ public class ClimberMove extends Command
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted)
-  {
-    climber.activate(0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
