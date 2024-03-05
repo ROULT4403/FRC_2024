@@ -4,15 +4,12 @@
 
 package frc.robot;
 
-import static frc.robot.Constants.ElectronicConstants.falconRPM;
-import static frc.robot.Constants.ElectronicConstants.neoRPM;
-
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SPI.Port;
 
@@ -45,18 +42,17 @@ public final class Constants
     public static final IdleMode neoCoastMode = IdleMode.kCoast;
 
     // The motor controller's IDs are defined here...
-    public static final int[] sparkMaxIDs = new int[] {0, 0, 0, 0, 0, 0, 0};
-    public static final int[] talonFXIDs = new int[] {0, 0, 0};
+    public static final int[] sparkMaxIDs = new int[] {2, 1, 4, 7, 5, 6, 3};
+    public static final int[] talonFXIDs = new int[] {8, 9, 10};
 
     // The motor controller's inversions are defined here...
     public static final boolean clockWise = false;
     public static final boolean counterClockWise = true;
 
     // The encoders/sensors channels are defined here...
-    public static final int[] encoderChannels = new int[] {0, 0, 0};
-    public static final int limitSwitchChannel = 0;
+    public static final int[] encoderChannels = new int[] {2, 3, 4};
+    public static final int[] limitSwitchChannel = new int[] {0, 1};
     public static final Port navxPort = SPI.Port.kMXP;
-    public static final I2C.Port distanceSensorPort = I2C.Port.kOnboard;
 
     // The motors' RPM are defined here...
     public static final int neoRPM = 5676;
@@ -67,25 +63,13 @@ public final class Constants
   public static class TankDriveConstants
   {
     // The distance per rotation is defined here...
-    private static final double wheelDiameterMeters = Units.inchesToMeters(0);
+    private static final double wheelDiameterMeters = Units.inchesToMeters(6);
     public static final double chassisDistancePerRotation = wheelDiameterMeters * Math.PI;
 
+    public static final DifferentialDriveKinematics tankKinematics = new DifferentialDriveKinematics(Units.inchesToMeters(29));
+
     // The controllers deadbands are defined here...
-    public static final double chassisDeadband = 0.052;
-
-    // The physical maximums are defined here...
-    private static final double chassisPhysicalMaxSpeed = 4;
-    private static final double chassisPhysicalMaxRot = 720;
-
-    // The drive maximums are defined here...
-    public static final double chassisDriveMaxSpeed = chassisPhysicalMaxSpeed / 4;
-    public static final double chassisDriveMaxRot = chassisPhysicalMaxRot / 4;
-  }
-
-  public static class IntakeConstants
-  {
-    // The distance of the IR detection is defined here...
-    public static final double limitProximity = 0;
+    public static final double chassisDeadband = 0.1;
   }
 
   /** The wrist values are defined here... */
@@ -93,36 +77,15 @@ public final class Constants
   {
     // The distance per rotation is defined here...
     public static final double wristDistancePerRotation = 2 * Math.PI;
-
-    // The controller's deadband is defined here...
-    public static final double wristDeadband = 0;
-
-    // The wrist's gearing is defined here...
-    private static final double wristGearing = 8.75;
-
-    // The wrist's physical maximum is defined here...
-    private static final double wristPhysicalMaxRot = neoRPM / wristGearing;
-
-    // The wrist's maximum are defined here...
-    public static final double wristDriveMaxRot = wristPhysicalMaxRot / 4;
   }
 
   /** The climber values are defined here... */
   public static class ClimberConstants
   {
-    // The controller's deadband is defined here...
-    public static final double climberDeadband = 0;
-
     // The distance per pulse is defined here...
     private static final int climberEncoderCPR = 2048;
-    private static final int climberGearing = 25;
-    public static final double climberDistanceConversion =
-    Units.feetToMeters(1/(double)climberEncoderCPR * (double)climberGearing * 1.753 * Math.PI/1 * 1/12);
-
-    // The wrist's physical maximum is defined here...
-    private static final double climberPhysicalMaxSpeed = falconRPM / climberGearing;
-
-    // The wrist's maximum are defined here...
-    public static final double climberDriveMaxSpeed = climberPhysicalMaxSpeed / 4;
+    private static final int climberGearing = 50;
+    public static final double climberPulse = climberEncoderCPR * climberGearing;
+    public static final double climberDistanceConversion = Math.PI * 1.753;
   }
 }

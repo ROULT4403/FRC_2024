@@ -7,6 +7,9 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 
+//import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -31,6 +34,8 @@ public class TankDrive extends SubsystemBase
   // The differential drive is defined here...
   private final DifferentialDrive differentialDrive = new DifferentialDrive(leaderLeft, leaderRight);
 
+  private final DifferentialDriveOdometry odometry;
+
   /** Creates a new Tank Drive. */
   public TankDrive()
   {
@@ -44,22 +49,34 @@ public class TankDrive extends SubsystemBase
     followLeft.follow(leaderLeft);
     followRight.follow(leaderRight);
 
+    leaderRight.setInverted(counterClockWise);
+    followRight.setInverted(counterClockWise);
+
     // The encoders' distance per rotation are defined here...
     leftEncoder.setDistancePerRotation(chassisDistancePerRotation);
     rightEncoder.setDistancePerRotation(chassisDistancePerRotation);
 
     // The deadband is defined here...
     differentialDrive.setDeadband(chassisDeadband);
+
+    reset();
+
+    odometry = new DifferentialDriveOdometry(navx.getRotation2d(), leftEncoder.getDistance(), rightEncoder.getDistance());
+
+    odometry.resetPosition(navx.getRotation2d(), leftEncoder.getDistance(), rightEncoder.getDistance(), new Pose2d());
   }
 
   /** Use to drive the chassis... */
-  public void drive(double speed, double rot)
+  public void drive(double speedJoystick, double rotJoystick)
   {
+    double speed = speedJoystick;
+    double rot = rotJoystick;
+
     differentialDrive.arcadeDrive(speed, rot);
   }
 
   /** Use to get the chassis' distance... */
-  public double getMeasurement()
+  public double getDistance()
   {
     // Return the process variable measurement here...
     double leftDistance = leftEncoder.getDistance();
@@ -73,6 +90,11 @@ public class TankDrive extends SubsystemBase
     return navx.getRotation2d().getDegrees();
   }
 
+  public Pose2d getPose()
+  {
+    return odometry.getPoseMeters();
+  }
+
   /** Use to reset all encoders/sensors */
   public void reset()
   {
@@ -82,10 +104,21 @@ public class TankDrive extends SubsystemBase
     rightEncoder.reset();
   }
 
+  public void resetOdometry(Pose2d pose)
+  {
+    reset();
+    odometry.resetPosition(navx.getRotation2d(), -leftEncoder.getDistance(), rightEncoder.getDistance(), pose);
+  }
+
   @Override
   public void periodic()
   {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Distance", getMeasurement());
+    odometry.update(navx.getRotation2d(), -leftEncoder.getDistance(), rightEncoder.getDistance());
+
+    SmartDashboard.putNumber("Distance", getDistance());
+    SmartDashboard.putNumber("Pos X", getPose().getX());
+    SmartDashboard.putNumber("Pos Y", getPose().getY());
+    SmartDashboard.putNumber("Direction", getDirection());
   }
 }

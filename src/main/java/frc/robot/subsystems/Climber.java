@@ -20,7 +20,8 @@ public class Climber extends SubsystemBase
   private final TalonFX rightClimber = new TalonFX(talonFXIDs[2]);
 
   // The climber's limit switch is defined here...
-  private final DigitalInput limitSwitch = new DigitalInput(limitSwitchChannel);
+  private final DigitalInput upperSwitch = new DigitalInput(limitSwitchChannel[0]);
+  private final DigitalInput lowerSwitch = new DigitalInput(limitSwitchChannel[1]);
 
   /** Creates a new Climber. */
   public Climber()
@@ -31,22 +32,33 @@ public class Climber extends SubsystemBase
 
     // The motor's inversion is defined here...
     leftClimber.setInverted(clockWise);
-    rightClimber.setInverted(clockWise);
+    rightClimber.setInverted(counterClockWise);
+
+    resetEncoders();
   }
 
-  /** Use to set the climber's output... */
-  public void activate(double output)
+  /*public void climb(double output)
   {
-    // The climber will stops after touchng the limit switch
-    if (limitSwitch.get() == false)
+    leftClimber.set(output);
+    rightClimber.set(output);  
+  }*/
+
+  public void climb(double output)
+  {
+    if(upperSwitch.get() && output > 0)
     {
-      leftClimber.set(output);
-      rightClimber.set(output);
+      leftClimber.set(0);
+      rightClimber.set(0);
+    }
+    else if(lowerSwitch.get() && output < 0)
+    {
+      leftClimber.set(0);
+      rightClimber.set(0);
     }
     else
     {
-      leftClimber.stopMotor();
-      rightClimber.stopMotor();
+      leftClimber.set(output);
+      rightClimber.set(output);
     }
   }
 
@@ -54,9 +66,15 @@ public class Climber extends SubsystemBase
   public double getMeasurement()
   {
     // Return the process variable measurement here
-    double leftDistance = leftClimber.getPosition().getValueAsDouble() * climberDistanceConversion;
-    double rightDistance = rightClimber.getPosition().getValueAsDouble() * climberDistanceConversion;
+    double leftDistance = (leftClimber.getPosition().getValueAsDouble() / climberPulse) * climberDistanceConversion;
+    double rightDistance = (rightClimber.getPosition().getValueAsDouble() / climberPulse) * climberDistanceConversion;
     return (leftDistance + rightDistance) / 2;
+  }
+
+  public void resetEncoders()
+  {
+    leftClimber.setPosition(0);
+    rightClimber.setPosition(0);
   }
 
   @Override
@@ -64,5 +82,7 @@ public class Climber extends SubsystemBase
   {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Climber Pos", getMeasurement());
+    SmartDashboard.putBoolean("UpperSwitch Status", upperSwitch.get());
+    SmartDashboard.putBoolean("LowerSwitch Status", lowerSwitch.get());
   }
 }

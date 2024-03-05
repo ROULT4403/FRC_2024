@@ -6,9 +6,13 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+
+//import edu.wpi.first.math.controller.BangBangController;
+//import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.ElectronicConstants.*;
+//import static frc.robot.Constants.ShooterConstants.*;
 
 public class Shooter extends SubsystemBase
 {
@@ -20,6 +24,9 @@ public class Shooter extends SubsystemBase
   private final RelativeEncoder leftEncoder = leftShooter.getEncoder();
   private final RelativeEncoder rightEncoder = rightShooter.getEncoder();
 
+  //private final BangBangController bangBangController = new BangBangController();
+  //private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(shooterS, shooterV);
+
   /** Creates a new Shooter. */
   public Shooter()
   {
@@ -28,13 +35,16 @@ public class Shooter extends SubsystemBase
     rightShooter.setIdleMode(neoCoastMode);
 
     // The motors' inversion are defined here...
-    leftShooter.setInverted(clockWise);
-    rightShooter.setInverted(counterClockWise);
+    leftShooter.setInverted(counterClockWise);
+    rightShooter.setInverted(clockWise);
   }
 
   /** Use to set the shooter's output... */
   public void shoot(double output)
   {
+    //leftShooter.set(output);
+    //rightShooter.set(output);
+
     leftShooter.set(output);
     rightShooter.set(output);
   }
