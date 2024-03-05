@@ -7,12 +7,9 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
-//import edu.wpi.first.math.controller.BangBangController;
-//import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.ElectronicConstants.*;
-//import static frc.robot.Constants.ShooterConstants.*;
 
 public class Shooter extends SubsystemBase
 {
@@ -23,9 +20,6 @@ public class Shooter extends SubsystemBase
   // The shooter's encoders are defined here...
   private final RelativeEncoder leftEncoder = leftShooter.getEncoder();
   private final RelativeEncoder rightEncoder = rightShooter.getEncoder();
-
-  //private final BangBangController bangBangController = new BangBangController();
-  //private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(shooterS, shooterV);
 
   /** Creates a new Shooter. */
   public Shooter()
