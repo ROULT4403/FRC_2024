@@ -19,7 +19,7 @@ public class Wrist extends SubsystemBase
   private final CANSparkMax wrist = new CANSparkMax(sparkMaxIDs[6], neoMotorType);
 
   // The wrist's encoder is defined here...
-  private final DutyCycleEncoder wristEncoder = new DutyCycleEncoder(encoderChannels[2]);
+  private final DutyCycleEncoder wristEncoder = new DutyCycleEncoder(encoderChannels[4]);
 
   /** Creates a new WristPID. */
   public Wrist()

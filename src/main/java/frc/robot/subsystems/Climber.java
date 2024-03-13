@@ -37,12 +37,6 @@ public class Climber extends SubsystemBase
     resetEncoders();
   }
 
-  /*public void climb(double output)
-  {
-    leftClimber.set(output);
-    rightClimber.set(output);  
-  }*/
-
   public void climb(double output)
   {
     if(upperSwitch.get() && output > 0)

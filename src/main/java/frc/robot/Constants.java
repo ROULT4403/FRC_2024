@@ -50,7 +50,7 @@ public final class Constants
     public static final boolean counterClockWise = true;
 
     // The encoders/sensors channels are defined here...
-    public static final int[] encoderChannels = new int[] {2, 3, 4};
+    public static final int[] encoderChannels = new int[] {7, 8, 5, 6, 4};
     public static final int[] limitSwitchChannel = new int[] {0, 1};
     public static final Port navxPort = SPI.Port.kMXP;
 
@@ -62,9 +62,10 @@ public final class Constants
   /** The chassis values are defined here... */
   public static class TankDriveConstants
   {
-    // The distance per rotation is defined here...
+    // The distance per pulse is defined here...
+    private static final double encoderCPR = 2048;
     private static final double wheelDiameterMeters = Units.inchesToMeters(6);
-    public static final double chassisDistancePerRotation = wheelDiameterMeters * Math.PI;
+    public static final double chassisDistancePerPulse = (wheelDiameterMeters * Math.PI) / encoderCPR;
 
     public static final DifferentialDriveKinematics tankKinematics = new DifferentialDriveKinematics(Units.inchesToMeters(29));
 
