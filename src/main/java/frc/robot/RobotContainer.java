@@ -8,8 +8,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Climber;
@@ -18,6 +20,10 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.TankDrive;
 import frc.robot.subsystems.Wrist;
 import static frc.robot.Constants.OperatorConstants.*;
+
+import java.time.Instant;
+
+import javax.print.attribute.standard.DialogOwner;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -35,11 +41,11 @@ public class RobotContainer
   // The robot's subsystems and commands are defined here...
   private final SendableChooser<Command> autoChooser;
 
-  private static final TankDrive tankDrive = new TankDrive();
-  private static final Climber climber = new Climber();
-  private static final Wrist wrist = new Wrist();
-  private static final Intake intake = new Intake();
-  private static final Shooter shooter = new Shooter();
+  public static final TankDrive tankDrive = new TankDrive();
+  public static final Climber climber = new Climber();
+  public static final Wrist wrist = new Wrist();
+  public static final Intake intake = new Intake();
+  public static final Shooter shooter = new Shooter();
 
   // The driver's controllers are defined here...
   private static final CommandXboxController chassisController = new CommandXboxController(controllersPort[0]);
@@ -60,27 +66,31 @@ public class RobotContainer
   public RobotContainer()
   {
     //Named Commands
-    NamedCommands.registerCommand("ShootOn",new InstantCommand(() ->shooter.shoot(1), shooter));
-    NamedCommands.registerCommand("ShootOff",new InstantCommand(() ->shooter.shoot(0), shooter));
-
-    NamedCommands.registerCommand("IntakeOut",new InstantCommand(() -> intake.activate(-1), intake));
-    NamedCommands.registerCommand("IntakeIn",new InstantCommand(() -> intake.activate(1), intake));
-
-    NamedCommands.registerCommand("IntakeOff",new InstantCommand(() -> intake.activate(0), intake));
-
-    NamedCommands.registerCommand("WristDown", new InstantCommand(()-> wrist.moveWrist(-0.2), wrist).withTimeout(0.3));
-    NamedCommands.registerCommand("WristUp", new InstantCommand(()-> wrist.moveWrist(0.2), wrist).withTimeout(0.3));
+    NamedCommands.registerCommand("i_OFF",new InstantCommand(() -> intake.activate(0), intake).withTimeout(.1));
+    NamedCommands.registerCommand("i_IN",new InstantCommand(() -> intake.activate(.5), intake).withTimeout(.1));
+    NamedCommands.registerCommand("ShootOff",new InstantCommand(() ->shooter.shoot(0), shooter).withTimeout(.1));
+    NamedCommands.registerCommand("WristDown", new RunCommand(()-> wrist.moveWrist(-.3), wrist).withTimeout(0.3));
+    NamedCommands.registerCommand("IntakeOut",new InstantCommand(() -> intake.activate(-.5), intake).withTimeout(.1));
+    NamedCommands.registerCommand("ShootOn",new InstantCommand(() ->shooter.shoot(1), shooter).withTimeout(.1));
+    NamedCommands.registerCommand("Wrist Up", new RunCommand(()-> wrist.moveWrist(0.3), wrist).withTimeout(0.3));
+    NamedCommands.registerCommand("Wrist Off", new RunCommand(()-> wrist.moveWrist(0.0), wrist).withTimeout(0.1));
 
 
+   
+    
+   autoChooser = AutoBuilder.buildAutoChooser();
+  SmartDashboard.putData("Auto Chooser", autoChooser);
 
 
-    autoChooser = AutoBuilder.buildAutoChooser();
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+
+
+ 
 
     tankDrive.setDefaultCommand(new RunCommand(() -> tankDrive.drive(-chassisController.getLeftY(), chassisController.getRightX()), tankDrive));
 
     // Configure the trigger bindings
     configureBindings();
+ 
   }
 
     /** Use this method to define your trigger->command mappings. */
@@ -123,8 +133,6 @@ public class RobotContainer
    */
   public Command getAutonomousCommand()
   {
-    //PathPlannerPath path = PathPlannerPath.fromPathFile("Test Path");
-    //return AutoBuilder.followPath(path);
     return autoChooser.getSelected();
   }
 }

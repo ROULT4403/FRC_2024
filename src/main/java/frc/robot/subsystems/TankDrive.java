@@ -92,17 +92,15 @@ public class TankDrive extends SubsystemBase
       var alliance = DriverStation.getAlliance();
       if (alliance.isPresent())
       {
-        return alliance.get() == DriverStation.Alliance.Red;
+        return false;
       }
       return false;
     },
     this);
-    //if 
-
     navx.resetDisplacement();
     navx.reset();
     navx.isCalibrating();
-    resetOdometry(PathPlannerPath.fromPathFile("Test Path").getStartingDifferentialPose());
+    resetOdometry(new Pose2d());
 
 
   }

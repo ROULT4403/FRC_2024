@@ -16,7 +16,7 @@ import static frc.robot.Constants.WristConstants.*;
 public class Wrist extends SubsystemBase
 {
   // The wrist's motor controller is defined here...
-  private final CANSparkMax wrist = new CANSparkMax(sparkMaxIDs[6], neoMotorType);
+  private final CANSparkMax wrist = new CANSparkMax(3, neoMotorType);
 
   // The wrist's encoder is defined here...
   private final DutyCycleEncoder wristEncoder = new DutyCycleEncoder(encoderChannels[4]);
