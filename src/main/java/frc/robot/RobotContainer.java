@@ -98,8 +98,7 @@ public class RobotContainer
   {
     take.onTrue(new InstantCommand(() -> intake.activate(0.5), intake));
 
-    //climberUp.onTrue(new InstantCommand(() -> climber.activate(0.1), climber));
-    //climberDown.onTrue(new InstantCommand(() -> climber.activate(-0.1), climber));
+
     climberUp.onTrue(new InstantCommand(() -> climber.climb(0.4), climber));
     climberDown.onTrue(new InstantCommand(() -> climber.climb(-0.4), climber));
 
@@ -113,8 +112,7 @@ public class RobotContainer
 
     take.onFalse(new InstantCommand(() -> intake.activate(0), intake));
     
-    //climberUp.onFalse(new InstantCommand(() -> climber.activate(0), climber));
-    //climberDown.onFalse(new InstantCommand(() -> climber.activate(0), climber));
+   
      climberUp.onFalse(new InstantCommand(() -> climber.climb(0), climber));
      climberDown.onFalse(new InstantCommand(() -> climber.climb(0), climber));
 

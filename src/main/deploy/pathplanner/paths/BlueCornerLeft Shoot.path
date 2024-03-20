@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.76,
-        "y": 7.044463818657367
+        "x": 2.4840977052269464,
+        "y": 4.17073377974601
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.779555532472989,
-        "y": 7.044463818657367
+        "x": 1.5036532376999356,
+        "y": 4.17073377974601
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "ShootLeftCorner kms"
     },
     {
       "anchor": {
-        "x": 0.7635575631511622,
-        "y": 6.6561862853455445
+        "x": -0.32731741139157966,
+        "y": 6.5
       },
       "prevControl": {
-        "x": 1.2635575631511617,
-        "y": 7.522211689129983
+        "x": 3.1394462788925392,
+        "y": 9.476794422057335
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
   "reversed": true,
   "folder": null,
   "previewStartingState": {
-    "rotation": 61.14433878028341,
+    "rotation": -3.2704879231836164,
     "velocity": 0
   },
   "useDefaultConstraints": true

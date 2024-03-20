@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2537797969146671,
-        "y": 7.505276101223843
+        "x": 2.115706258089338,
+        "y": 8.587254748840452
       },
       "isLocked": false,
       "linkedName": "LeftBlueCorner Origin"
     },
     {
       "anchor": {
-        "x": 2.76,
-        "y": 7.044463818657367
+        "x": 2.4840977052269464,
+        "y": 4.17073377974601
       },
       "prevControl": {
-        "x": 1.7599999999999998,
-        "y": 7.044463818657367
+        "x": 0.7701337258395449,
+        "y": 4.17073377974601
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "LeftNote"
+      "linkedName": "ShootLeftCorner kms"
     }
   ],
   "rotationTargets": [],
