@@ -1,0 +1,134 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.76,
+      "y": 6.66
+    },
+    "rotation": 60.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootOn"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeOut"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootOff"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "i_OFF"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "WristDown"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BlueCornerLeft Get"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Wrist Up"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WristOff"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueCornerLeft Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootOn"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.2
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeOut"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootOff"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "i_OFF"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WristOff"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Blue Side Auto",
+  "choreoAuto": false
+}

@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.35,
-        "y": 5.55
+        "x": 3.130267727440643,
+        "y": 6.241414987302248
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.75,
-        "y": 5.55
+        "x": 2.1389699700223654,
+        "y": 6.241414987302248
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "CornerRight Get Note Blue"
     },
     {
       "anchor": {
-        "x": 2.2796888837020917,
-        "y": 5.55
+        "x": 0.11970285121250114,
+        "y": 5.0371890368109895
       },
       "prevControl": {
-        "x": 1.5196888837020917,
-        "y": 5.55
+        "x": 1.3977158649911021,
+        "y": 2.8236055642122277
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,10 +42,10 @@
     "rotation": 0,
     "rotateFast": false
   },
-  "reversed": false,
+  "reversed": true,
   "folder": null,
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 2.2025981617657933,
     "velocity": 0
   },
   "useDefaultConstraints": true

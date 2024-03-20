@@ -51,6 +51,6 @@ public class Wrist extends SubsystemBase
   public void periodic()
   {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Wrist Pos", getMeasurement());
+    SmartDashboard.putNumber("Wrist Pos", wrist.getAppliedOutput());
   }
 }

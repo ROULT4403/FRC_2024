@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.222273327429537,
-      "y": 5.55
+      "x": 0.7071301441350655,
+      "y": 4.391019014596169
     },
-    "rotation": 180.0
+    "rotation": -60.0
   },
   "command": {
     "type": "sequential",
@@ -32,7 +32,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
+            "waitTime": 0.8
           }
         },
         {
@@ -45,6 +45,12 @@
           "type": "named",
           "data": {
             "name": "i_OFF"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WristDown"
           }
         },
         {
@@ -52,86 +58,19 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "WristDown"
+                  "pathName": "RightBlueCorner Get"
                 }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Wrist Up"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WristOff"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootOn"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.2
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "IntakeOut"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootOff"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "i_OFF"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
+              },
               {
                 "type": "sequential",
                 "data": {
                   "commands": [
                     {
-                      "type": "named",
-                      "data": {
-                        "name": "WristDown"
-                      }
-                    },
-                    {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.35
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "WristOff"
+                        "waitTime": 0.8
                       }
                     },
                     {
@@ -143,7 +82,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.2
+                        "waitTime": 1.0
                       }
                     },
                     {
@@ -153,21 +92,9 @@
                       }
                     },
                     {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.25
-                      }
-                    },
-                    {
                       "type": "named",
                       "data": {
                         "name": "Wrist Up"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.3
                       }
                     },
                     {
@@ -189,26 +116,14 @@
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "ShootOn"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.2
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "IntakeOut"
+            "pathName": "RightBlueCorner Shoot"
           }
         }
       ]
     }
   },
-  "folder": "Red Side Auto",
+  "folder": "Blue Side Auto",
   "choreoAuto": false
 }
