@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.35,
+        "x": 1.5,
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.918351648103192,
+        "x": 3.068351648103192,
         "y": 5.55
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "CenterPoint Final nomover"
     },
     {
       "anchor": {

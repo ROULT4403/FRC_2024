@@ -7,16 +7,21 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.RobotContainer;
+
 import static frc.robot.Constants.ElectronicConstants.*;
+
 
 public class Shooter extends SubsystemBase
 {
   // The shooter's motor controllers are defined here...
   private final CANSparkMax leftShooter = new CANSparkMax(sparkMaxIDs[4], neoMotorType);
   private final CANSparkMax rightShooter = new CANSparkMax(sparkMaxIDs[5], neoMotorType);
-
+  private Boolean rumbleBool = false;
   // The shooter's encoders are defined here...
   private final RelativeEncoder leftEncoder = leftShooter.getEncoder();
   private final RelativeEncoder rightEncoder = rightShooter.getEncoder();
@@ -39,9 +44,18 @@ public class Shooter extends SubsystemBase
     //leftShooter.set(output);
     //rightShooter.set(output);
 
+  
     leftShooter.set(output);
     rightShooter.set(output);
   }
+  public void rumbleShooter(CommandXboxController controller){
+  if (getMeasurement()>= 3500){
+    controller.getHID().setRumble(RumbleType.kBothRumble, .6);
+  }
+  else{
+    controller.getHID().setRumble(RumbleType.kBothRumble, 0);
+
+  }}
 
   /** Use to get the shooter's velocity... */
   public double getMeasurement()
@@ -52,10 +66,16 @@ public class Shooter extends SubsystemBase
     return (leftVelocity + righVelocity) / 2;
   }
 
+
   @Override
   public void periodic()
   {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shooter Vel", getMeasurement());
+    rumbleShooter(RobotContainer.mechController);
+  
+    
+
+
   }
 }

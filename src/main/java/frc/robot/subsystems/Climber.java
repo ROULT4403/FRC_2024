@@ -22,7 +22,7 @@ public class Climber extends SubsystemBase
   // The climber's limit switch is defined here...
   private final DigitalInput upperSwitch = new DigitalInput(limitSwitchChannel[0]);
   private final DigitalInput lowerSwitch = new DigitalInput(limitSwitchChannel[1]);
-
+  private Double speedMultiplier = 1.0;
   /** Creates a new Climber. */
   public Climber()
   {
@@ -39,22 +39,29 @@ public class Climber extends SubsystemBase
 
   public void climb(double output)
   {
-    if(upperSwitch.get() && output > 0)
+    if(upperSwitch.get() && output > 0 )//&& getMeasurement()>=.00485
     {
       leftClimber.set(0);
       rightClimber.set(0);
     }
-    else if(lowerSwitch.get() && output < 0)
+    else if(lowerSwitch.get() && output < 0 ) // && getMeasurement()<0
     {
       leftClimber.set(0);
       rightClimber.set(0);
     }
-    else
-    {
+    else if(getMeasurement()>=.0035 && output>0){
+      leftClimber.set(output/2);
+      rightClimber.set(output/2);
+    }
+
+    else {
       leftClimber.set(output);
       rightClimber.set(output);
     }
-  }
+    
+
+    }
+  
 
   /** Use to get the climber's position... */
   public double getMeasurement()
@@ -78,5 +85,12 @@ public class Climber extends SubsystemBase
     SmartDashboard.putNumber("Climber Pos", getMeasurement());
     SmartDashboard.putBoolean("UpperSwitch Status", upperSwitch.get());
     SmartDashboard.putBoolean("LowerSwitch Status", lowerSwitch.get());
+    if(getMeasurement()>=.0035){
+      speedMultiplier = .4;
+
+    }
+    else{
+      speedMultiplier = 1.0;
+    }
   }
 }

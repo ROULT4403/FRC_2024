@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Climber;
@@ -49,7 +50,7 @@ public class RobotContainer
 
   // The driver's controllers are defined here...
   private static final CommandXboxController chassisController = new CommandXboxController(controllersPort[0]);
-  private static final CommandXboxController mechController = new CommandXboxController(controllersPort[1]);
+  public static final CommandXboxController mechController = new CommandXboxController(controllersPort[1]);
 
   //The driver's triggers are defined here...
   private static final Trigger take = chassisController.a().or(chassisController.b());
@@ -98,15 +99,14 @@ public class RobotContainer
   {
     take.onTrue(new InstantCommand(() -> intake.activate(0.5), intake));
 
-
-    climberUp.onTrue(new InstantCommand(() -> climber.climb(0.4), climber));
-    climberDown.onTrue(new InstantCommand(() -> climber.climb(-0.4), climber));
+    climberUp.onTrue(new InstantCommand(() -> climber.climb(0.6), climber).withTimeout(.05));
+    climberDown.onTrue(new InstantCommand(() -> climber.climb(-0.6), climber).withTimeout(.1));
 
     saveWrist.onTrue(new InstantCommand(() -> wrist.moveWrist(0.3), wrist));
     engadeWrist.onTrue(new InstantCommand(() -> wrist.moveWrist(-0.3), wrist));
-    shoot.whileTrue(new InstantCommand(() -> shooter.shoot(1), shooter));
+    shoot.whileTrue(new InstantCommand(() -> shooter.shoot(.9), shooter));
     outtake.whileTrue(new InstantCommand(() -> intake.activate(-1), intake));
-    shooting.onTrue(new SequentialCommandGroup(new RunCommand(()-> shooter.shoot(1), shooter),
+    shooting.onTrue(new SequentialCommandGroup(new RunCommand(()-> shooter.shoot(.9), shooter),
     new RunCommand(()-> intake.activate(-1), intake)));
 
 
