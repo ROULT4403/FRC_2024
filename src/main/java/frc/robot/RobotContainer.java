@@ -55,8 +55,8 @@ public class RobotContainer
   //The driver's triggers are defined here...
   private static final Trigger take = chassisController.a().or(chassisController.b());
 
-  private static final Trigger climberUp = chassisController.povUp();
-  private static final Trigger climberDown = chassisController.povDown();
+  private static final Trigger climberUp = chassisController.povUp().or(mechController.povUp());
+  private static final Trigger climberDown = chassisController.povDown().or(mechController.povDown());
 
   private static final Trigger saveWrist = chassisController.x();
   private static final Trigger engadeWrist = chassisController.y();
@@ -72,7 +72,7 @@ public class RobotContainer
     NamedCommands.registerCommand("ShootOff",new InstantCommand(() ->shooter.shoot(0), shooter).withTimeout(.1));
     NamedCommands.registerCommand("WristDown", new RunCommand(()-> wrist.moveWrist(-.3), wrist).withTimeout(0.3));
     NamedCommands.registerCommand("IntakeOut",new InstantCommand(() -> intake.activate(-.5), intake).withTimeout(.1));
-    NamedCommands.registerCommand("ShootOn",new InstantCommand(() ->shooter.shoot(1), shooter).withTimeout(.1));
+    NamedCommands.registerCommand("ShootOn",new InstantCommand(() ->shooter.shoot(.8), shooter).withTimeout(.1));
     NamedCommands.registerCommand("Wrist Up", new RunCommand(()-> wrist.moveWrist(0.3), wrist).withTimeout(0.3));
     NamedCommands.registerCommand("Wrist Off", new InstantCommand(()-> wrist.moveWrist(0.0), wrist).withTimeout(0.1));
 
@@ -97,7 +97,7 @@ public class RobotContainer
     /** Use this method to define your trigger->command mappings. */
   private void configureBindings()
   {
-    take.onTrue(new InstantCommand(() -> intake.activate(0.5), intake));
+    take.onTrue(new InstantCommand(() -> intake.activate(0.3), intake));
 
     climberUp.onTrue(new InstantCommand(() -> climber.climb(0.6), climber).withTimeout(.05));
     climberDown.onTrue(new InstantCommand(() -> climber.climb(-0.6), climber).withTimeout(.1));
@@ -131,6 +131,7 @@ public class RobotContainer
    */
   public Command getAutonomousCommand()
   {
-    return autoChooser.getSelected();
+
+   return autoChooser.getSelected();
   }
 }
