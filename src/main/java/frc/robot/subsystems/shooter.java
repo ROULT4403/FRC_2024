@@ -11,7 +11,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.ElectronicConstants.*;
 
+<<<<<<< Updated upstream
 public class Shooter extends SubsystemBase
+=======
+
+public class shooter extends SubsystemBase
+>>>>>>> Stashed changes
 {
   // The shooter's motor controllers are defined here...
   private final CANSparkMax leftShooter = new CANSparkMax(sparkMaxIDs[4], neoMotorType);
@@ -22,7 +27,7 @@ public class Shooter extends SubsystemBase
   private final RelativeEncoder rightEncoder = rightShooter.getEncoder();
 
   /** Creates a new Shooter. */
-  public Shooter()
+  public shooter()
   {
     // The motors' modes are defined here...
     leftShooter.setIdleMode(neoCoastMode);

@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.shooter;
 import frc.robot.subsystems.TankDrive;
 import frc.robot.subsystems.Wrist;
 import static frc.robot.Constants.OperatorConstants.*;
@@ -45,7 +45,7 @@ public class RobotContainer
   public static final Climber climber = new Climber();
   public static final Wrist wrist = new Wrist();
   public static final Intake intake = new Intake();
-  public static final Shooter shooter = new Shooter();
+  public static final shooter shooter = new shooter();
 
   // The driver's controllers are defined here...
   private static final CommandXboxController chassisController = new CommandXboxController(controllersPort[0]);
@@ -96,6 +96,7 @@ public class RobotContainer
     /** Use this method to define your trigger->command mappings. */
   private void configureBindings()
   {
+<<<<<<< Updated upstream
     take.onTrue(new InstantCommand(() -> intake.activate(0.5), intake));
 
     //climberUp.onTrue(new InstantCommand(() -> climber.activate(0.1), climber));
@@ -108,15 +109,33 @@ public class RobotContainer
     shoot.whileTrue(new InstantCommand(() -> shooter.shoot(1), shooter));
     outtake.whileTrue(new InstantCommand(() -> intake.activate(-1), intake));
     shooting.onTrue(new SequentialCommandGroup(new RunCommand(()-> shooter.shoot(1), shooter),
+=======
+    take.onTrue(new RunCommand(() -> intake.activate(0.3), intake));
+
+    climberUp.onTrue(new RunCommand(() -> climber.climb(0.6), climber).withTimeout(.05));
+    climberDown.onTrue(new RunCommand(() -> climber.climb(-0.6), climber).withTimeout(.1));
+
+    saveWrist.onTrue(new RunCommand(() -> wrist.moveWrist(0.3), wrist));
+    engadeWrist.onTrue(new RunCommand(() -> wrist.moveWrist(-0.3), wrist));
+    shoot.whileTrue(new RunCommand(() -> shooter.shoot(.9), shooter));
+    outtake.whileTrue(new RunCommand(() -> intake.activate(-1), intake));
+    shooting.onTrue(new SequentialCommandGroup(new RunCommand(()-> shooter.shoot(.9), shooter),
+>>>>>>> Stashed changes
     new RunCommand(()-> intake.activate(-1), intake)));
 
 
     take.onFalse(new InstantCommand(() -> intake.activate(0), intake));
     
+<<<<<<< Updated upstream
     //climberUp.onFalse(new InstantCommand(() -> climber.activate(0), climber));
     //climberDown.onFalse(new InstantCommand(() -> climber.activate(0), climber));
      // THIS THE GOOD ONEclimberUp.onFalse(new InstantCommand(() -> climber.climb(0), climber));
      // THIS THE GOOD ONEclimberDown.onFalse(new InstantCommand(() -> climber.climb(0), climber));
+=======
+   
+    climberUp.onFalse(new InstantCommand(() -> climber.climb(0), climber));
+    climberDown.onFalse(new InstantCommand(() -> climber.climb(0), climber));
+>>>>>>> Stashed changes
 
     saveWrist.onFalse(new InstantCommand(() -> wrist.moveWrist(0), wrist));
     engadeWrist.onFalse(new InstantCommand(() -> wrist.moveWrist(0), wrist));
