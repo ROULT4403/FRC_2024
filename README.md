@@ -1,7 +1,6 @@
-FRC4403_2024 ✨
+#FRC4403_2024 ✨
 
 FIRST Robotics Competition code for the 2024 season CRESCENDO. 🎼
-Purpose 🔧
 
 The code in this project was created for Bibble Pelón, robot of Team 4403 ROULT of PrepaTec Campus Laguna. Bibble Pelón was designed to participate in the FIRST Robotics Competition (FRC) 2024 season, CRESCENDO ©️.
 
