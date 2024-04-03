@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.ElectronicConstants.*;
 
@@ -47,6 +48,21 @@ public class shooter extends SubsystemBase
     leftShooter.set(output);
     rightShooter.set(output);
   }
+<<<<<<< Updated upstream
+=======
+  public Command shootCommand(double output){
+          return startEnd(() -> shoot(output), () ->shoot(0.0));
+
+  }
+public void rumbleShooter(CommandXboxController controller){
+  if (getMeasurement()>= 3500){
+    controller.getHID().setRumble(RumbleType.kBothRumble, .6);
+  }
+  else{
+    controller.getHID().setRumble(RumbleType.kBothRumble, 0);
+
+  }}
+>>>>>>> Stashed changes
 
   /** Use to get the shooter's velocity... */
   public double getMeasurement()
@@ -62,5 +78,13 @@ public class shooter extends SubsystemBase
   {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shooter Vel", getMeasurement());
+<<<<<<< Updated upstream
+=======
+    rumbleShooter(RobotContainer.mechController);
+  
+    
+
+
+>>>>>>> Stashed changes
   }
 }

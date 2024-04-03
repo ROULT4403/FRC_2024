@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.ElectronicConstants.*;
 
@@ -24,11 +25,15 @@ public class Intake extends SubsystemBase
     intake.setInverted(clockWise);
   }
 
-  /** Activates the outtake to take the game piece. */
+  /** Activates the intake to take the game piece. */
   public void activate(double output)
   {
     intake.set(output);
   }
+    public Command intakeCommand(double output) {
+      return startEnd(() -> activate(output), () ->activate(0.0));
+
+}
 
   @Override
   public void periodic()

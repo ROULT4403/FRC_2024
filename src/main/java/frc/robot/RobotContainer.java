@@ -7,27 +7,23 @@ package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+<<<<<<< Updated upstream
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+=======
+>>>>>>> Stashed changes
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.AutoConfig;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.shooter;
 import frc.robot.subsystems.TankDrive;
 import frc.robot.subsystems.Wrist;
 import static frc.robot.Constants.OperatorConstants.*;
-
-import java.time.Instant;
-
-import javax.print.attribute.standard.DialogOwner;
-
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.path.PathPlannerPath;
+
 
 
 /**
@@ -45,7 +41,13 @@ public class RobotContainer
   public static final Climber climber = new Climber();
   public static final Wrist wrist = new Wrist();
   public static final Intake intake = new Intake();
+<<<<<<< Updated upstream
   public static final shooter shooter = new shooter();
+=======
+  public static final Shooter shooter = new Shooter();
+  private static final AutoConfig autoConfig = new AutoConfig();
+
+>>>>>>> Stashed changes
 
   // The driver's controllers are defined here...
   private static final CommandXboxController chassisController = new CommandXboxController(controllersPort[0]);
@@ -58,44 +60,24 @@ public class RobotContainer
   //private static final Trigger climberDown = chassisController.povDown();
 
   private static final Trigger saveWrist = chassisController.x();
-  private static final Trigger engadeWrist = chassisController.y();
+  private static final Trigger lowWrist = chassisController.y();
   private static final Trigger shoot = mechController.rightTrigger();
   private static final Trigger outtake = mechController.leftTrigger();
-  private static final Trigger shooting = mechController.x().or(mechController.y());
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer()
   {
-    //Named Commands
-    NamedCommands.registerCommand("i_OFF",new InstantCommand(() -> intake.activate(0), intake).withTimeout(.1));
-    NamedCommands.registerCommand("i_IN",new InstantCommand(() -> intake.activate(.5), intake).withTimeout(.1));
-    NamedCommands.registerCommand("ShootOff",new InstantCommand(() ->shooter.shoot(0), shooter).withTimeout(.1));
-    NamedCommands.registerCommand("WristDown", new RunCommand(()-> wrist.moveWrist(-.3), wrist).withTimeout(0.3));
-    NamedCommands.registerCommand("IntakeOut",new InstantCommand(() -> intake.activate(-.5), intake).withTimeout(.1));
-    NamedCommands.registerCommand("ShootOn",new InstantCommand(() ->shooter.shoot(1), shooter).withTimeout(.1));
-    NamedCommands.registerCommand("Wrist Up", new RunCommand(()-> wrist.moveWrist(0.3), wrist).withTimeout(0.3));
-    NamedCommands.registerCommand("Wrist Off", new RunCommand(()-> wrist.moveWrist(0.0), wrist).withTimeout(0.1));
-
-
-   
-    
-   autoChooser = AutoBuilder.buildAutoChooser();
+  autoConfig.setNamedCommands();
+  autoChooser = AutoBuilder.buildAutoChooser();
   SmartDashboard.putData("Auto Chooser", autoChooser);
-
-
-
-
- 
-
-    tankDrive.setDefaultCommand(new RunCommand(() -> tankDrive.drive(-chassisController.getLeftY(), chassisController.getRightX()), tankDrive));
-
-    // Configure the trigger bindings
-    configureBindings();
+  tankDrive.setDefaultCommand(new RunCommand(() -> tankDrive.drive(-chassisController.getLeftY(), chassisController.getRightX()), tankDrive));
+  configureBindings();
  
   }
 
     /** Use this method to define your trigger->command mappings. */
   private void configureBindings()
   {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
     take.onTrue(new InstantCommand(() -> intake.activate(0.5), intake));
 
@@ -143,6 +125,17 @@ public class RobotContainer
     outtake.whileFalse(new InstantCommand(() -> intake.activate(0), intake));
     shooting.onFalse(new SequentialCommandGroup(new RunCommand(()-> shooter.shoot(0), shooter),
     new RunCommand(()-> intake.activate(0), intake)));
+=======
+    take.whileTrue(intake.intakeCommand(.3));
+    outtake.whileTrue(intake.intakeCommand(-1));
+    climberUp.whileTrue(climber.climbUp());
+    climberDown.whileTrue(climber.climbDown());
+    shoot.whileTrue(shooter.shootCommand(1));
+    saveWrist.whileTrue(wrist.wristCommand(.3));
+    lowWrist.whileTrue(wrist.wristCommand(-.3));
+
+
+>>>>>>> Stashed changes
   }
 
   /**
