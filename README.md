@@ -19,7 +19,7 @@ Bibble Pelón has 6 different subsystems that control different mechanisms on th
 |[Wrist](https://github.com/ROULT4403/FRC_2024/blob/breakdowm/src/main/java/frc/robot/subsystems/Wrist.java)| 	Used to move the Intake joint using a Spark Max + NEO Brushless Motor|
 |[Shooter](https://github.com/ROULT4403/FRC_2024/blob/breakdowm/src/main/java/frc/robot/subsystems/shooter.java)| 	Used to shoot notes out at a fixed angle.|
 |[Climber](https://github.com/ROULT4403/FRC_2024/blob/breakdowm/src/main/java/frc/robot/subsystems/Climber.java)| 	Used during the endagme period of a match, it hangs Bibble Pelón using 2 Falcon 500. To aid the drivers, the command is stopped via RaceCommandGroup, checking if the physical limit switch is pressed or the encoder position is greater than a certain point.|
-|[AutoConfig](https://github.com/ROULT4403/FRC_2024/blob/breakdowm/src/main/java/frc/robot/subsystems/Climber.java)| 	Simply used to improve the readability of the code. This subsystem declares the NamedCommands used with PathPlanner.|
+|[AutoConfig](https://github.com/ROULT4403/FRC_2024/blob/breakdowm/src/main/java/frc/robot/subsystems/TankDrive.java)| 	Simply used to improve the readability of the code. This subsystem declares the NamedCommands used with PathPlanner.|
 
 
 Convenience features during the match📷
