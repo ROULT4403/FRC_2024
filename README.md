@@ -1,5 +1,4 @@
-#FRC4403_2024 ✨
-
+# Bibble✨
 FIRST Robotics Competition code for the 2024 season CRESCENDO. 🎼
 
 The code in this project was created for Bibble Pelón, robot of Team 4403 ROULT of PrepaTec Campus Laguna. Bibble Pelón was designed to participate in the FIRST Robotics Competition (FRC) 2024 season, CRESCENDO ©️.
@@ -22,7 +21,9 @@ Bibble Pelón has 5 different subsystems that control different mechanisms on th
 |Climber| 	Used during the endagme period of a match, it hangs Bibble Pelón using 2 Falcon 500. To aid the drivers, the command is stopped via RaceCommandGroup, checking if the physical limit switch is pressed or the encoder position is greater than a certain point.|
 
 Convenience features during the match📷
+
 Bibble Pelón is equipped with 2 cameras connected to the roboRIO, providing a better view of the Intake and the whole field.
+
 Haptic indicators are used to aid drivers, as the controller will rumble when the shooter gets to its target velocity.
 
 
