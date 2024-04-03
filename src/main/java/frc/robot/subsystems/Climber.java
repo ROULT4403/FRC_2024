@@ -6,12 +6,18 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.ElectronicConstants.*;
 import static frc.robot.Constants.ClimberConstants.*;
 
+import com.ctre.phoenix6.controls.ControlRequest;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.ControlModeValue;
 
 public class Climber extends SubsystemBase
 {
@@ -23,6 +29,12 @@ public class Climber extends SubsystemBase
   private final DigitalInput upperSwitch = new DigitalInput(limitSwitchChannel[0]);
   private final DigitalInput lowerSwitch = new DigitalInput(limitSwitchChannel[1]);
   private Double speedMultiplier = 1.0;
+  private Double output = 0.0;
+  private Boolean upBool = false;
+  private Boolean downBool = false;
+
+
+
   /** Creates a new Climber. */
   public Climber()
   {
@@ -34,34 +46,28 @@ public class Climber extends SubsystemBase
     leftClimber.setInverted(clockWise);
     rightClimber.setInverted(counterClockWise);
 
+ 
     resetEncoders();
   }
+  public Command climbUp() {
+      return startEnd(() -> climb(.6*speedMultiplier), () ->climb(0.0)).until(upperSwitch::get);
 
-  public void climb(double output)
-  {
-    if(upperSwitch.get() && output > 0 )//&& getMeasurement()>=.00485
-    {
-      leftClimber.set(0);
-      rightClimber.set(0);
-    }
-    else if(lowerSwitch.get() && output < 0 ) // && getMeasurement()<0
-    {
-      leftClimber.set(0);
-      rightClimber.set(0);
-    }
-    else if(getMeasurement()>=.0035 && output>0){
-      leftClimber.set(output/2);
-      rightClimber.set(output/2);
-    }
+}
 
-    else {
-      leftClimber.set(output);
-      rightClimber.set(output);
-    }
-    
 
-    }
   
+  
+  public Command unclimb() {
+
+    return startEnd(() -> climb(-.6), () ->climb(0.0)).until(lowerSwitch::get);
+  }
+
+  public void climb(double speed)
+  {
+    leftClimber.set(speed*speedMultiplier);
+    rightClimber.set(speed*speedMultiplier);
+
+  }
 
   /** Use to get the climber's position... */
   public double getMeasurement()
@@ -83,14 +89,13 @@ public class Climber extends SubsystemBase
   {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Climber Pos", getMeasurement());
+    SmartDashboard.putNumber("Climber Speed", speedMultiplier);
+
     SmartDashboard.putBoolean("UpperSwitch Status", upperSwitch.get());
     SmartDashboard.putBoolean("LowerSwitch Status", lowerSwitch.get());
     if(getMeasurement()>=.0035){
-      speedMultiplier = .4;
-
+      speedMultiplier = .5;
     }
-    else{
-      speedMultiplier = 1.0;
-    }
+    else speedMultiplier = 1.0;
   }
 }

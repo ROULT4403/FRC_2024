@@ -55,8 +55,8 @@ public class RobotContainer
   //The driver's triggers are defined here...
   private static final Trigger take = chassisController.a().or(chassisController.b());
 
-  private static final Trigger climberUp = chassisController.povUp().or(mechController.povUp());
-  private static final Trigger climberDown = chassisController.povDown().or(mechController.povDown());
+  private static final Trigger climberUp = chassisController.povUp();
+  private static final Trigger climberDown = chassisController.povDown();
 
   private static final Trigger saveWrist = chassisController.x();
   private static final Trigger engadeWrist = chassisController.y();
@@ -67,14 +67,14 @@ public class RobotContainer
   public RobotContainer()
   {
     //Named Commands
-    NamedCommands.registerCommand("i_OFF",new InstantCommand(() -> intake.activate(0), intake));
-    NamedCommands.registerCommand("i_IN",new InstantCommand(() -> intake.activate(.5), intake));
+    NamedCommands.registerCommand("i_OFF",new InstantCommand(() -> intake.activate(0), intake).withTimeout(.1));
+    NamedCommands.registerCommand("i_IN",new InstantCommand(() -> intake.activate(.5), intake).withTimeout(.1));
     NamedCommands.registerCommand("ShootOff",new InstantCommand(() ->shooter.shoot(0), shooter).withTimeout(.1));
     NamedCommands.registerCommand("WristDown", new RunCommand(()-> wrist.moveWrist(-.3), wrist).withTimeout(0.3));
     NamedCommands.registerCommand("IntakeOut",new InstantCommand(() -> intake.activate(-.5), intake).withTimeout(.1));
-    NamedCommands.registerCommand("ShootOn",new InstantCommand(() ->shooter.shoot(.8), shooter).withTimeout(.1));
+    NamedCommands.registerCommand("ShootOn",new InstantCommand(() ->shooter.shoot(1), shooter).withTimeout(.1));
     NamedCommands.registerCommand("Wrist Up", new RunCommand(()-> wrist.moveWrist(0.3), wrist).withTimeout(0.3));
-    NamedCommands.registerCommand("Wrist Off", new InstantCommand(()-> wrist.moveWrist(0.0), wrist).withTimeout(0.1));
+    NamedCommands.registerCommand("Wrist Off", new RunCommand(()-> wrist.moveWrist(0.0), wrist).withTimeout(0.1));
 
 
    
@@ -87,7 +87,7 @@ public class RobotContainer
 
  
 
-   tankDrive.setDefaultCommand(new RunCommand(() -> tankDrive.drive(-chassisController.getLeftY(), chassisController.getRightX()), tankDrive));
+    tankDrive.setDefaultCommand(new RunCommand(() -> tankDrive.drive(-chassisController.getLeftY(), chassisController.getRightX()), tankDrive));
 
     // Configure the trigger bindings
     configureBindings();
@@ -97,15 +97,15 @@ public class RobotContainer
     /** Use this method to define your trigger->command mappings. */
   private void configureBindings()
   {
-    take.onTrue(new InstantCommand(() -> intake.activate(0.3), intake));
+    take.onTrue(new RunCommand(() -> intake.activate(0.3), intake));
 
-    climberUp.onTrue(new InstantCommand(() -> climber.climb(0.6), climber).withTimeout(.05));
-    climberDown.onTrue(new InstantCommand(() -> climber.climb(-0.6), climber).withTimeout(.1));
+    climberUp.onTrue(climber.climbUp());
+    climberDown.onTrue(climber.unclimb());
 
-    saveWrist.onTrue(new InstantCommand(() -> wrist.moveWrist(0.3), wrist));
-    engadeWrist.onTrue(new InstantCommand(() -> wrist.moveWrist(-0.3), wrist));
-    shoot.whileTrue(new InstantCommand(() -> shooter.shoot(.9), shooter));
-    outtake.whileTrue(new InstantCommand(() -> intake.activate(-1), intake));
+    saveWrist.onTrue(new RunCommand(() -> wrist.moveWrist(0.3), wrist));
+    engadeWrist.onTrue(new RunCommand(() -> wrist.moveWrist(-0.3), wrist));
+    shoot.whileTrue(new RunCommand(() -> shooter.shoot(.9), shooter));
+    outtake.whileTrue(new RunCommand(() -> intake.activate(-1), intake));
     shooting.onTrue(new SequentialCommandGroup(new RunCommand(()-> shooter.shoot(.9), shooter),
     new RunCommand(()-> intake.activate(-1), intake)));
 
@@ -113,8 +113,8 @@ public class RobotContainer
     take.onFalse(new InstantCommand(() -> intake.activate(0), intake));
     
    
-     climberUp.onFalse(new InstantCommand(() -> climber.climb(0), climber));
-     climberDown.onFalse(new InstantCommand(() -> climber.climb(0), climber));
+    climberUp.onFalse(new InstantCommand(() -> climber.climb(0), climber));
+    climberDown.onFalse(new InstantCommand(() -> climber.climb(0), climber));
 
     saveWrist.onFalse(new InstantCommand(() -> wrist.moveWrist(0), wrist));
     engadeWrist.onFalse(new InstantCommand(() -> wrist.moveWrist(0), wrist));
@@ -131,7 +131,6 @@ public class RobotContainer
    */
   public Command getAutonomousCommand()
   {
-
-   return autoChooser.getSelected();
+    return autoChooser.getSelected();
   }
 }

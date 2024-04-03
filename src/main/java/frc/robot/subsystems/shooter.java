@@ -21,7 +21,7 @@ public class Shooter extends SubsystemBase
   // The shooter's motor controllers are defined here...
   private final CANSparkMax leftShooter = new CANSparkMax(sparkMaxIDs[4], neoMotorType);
   private final CANSparkMax rightShooter = new CANSparkMax(sparkMaxIDs[5], neoMotorType);
-  private Boolean rumbleBool = false;
+private Boolean rumbleBool = false;
   // The shooter's encoders are defined here...
   private final RelativeEncoder leftEncoder = leftShooter.getEncoder();
   private final RelativeEncoder rightEncoder = rightShooter.getEncoder();
@@ -44,11 +44,11 @@ public class Shooter extends SubsystemBase
     //leftShooter.set(output);
     //rightShooter.set(output);
 
-  
+
     leftShooter.set(output);
     rightShooter.set(output);
   }
-  public void rumbleShooter(CommandXboxController controller){
+public void rumbleShooter(CommandXboxController controller){
   if (getMeasurement()>= 3500){
     controller.getHID().setRumble(RumbleType.kBothRumble, .6);
   }
@@ -72,7 +72,7 @@ public class Shooter extends SubsystemBase
   {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shooter Vel", getMeasurement());
-    rumbleShooter(RobotContainer.mechController);
+rumbleShooter(RobotContainer.mechController);
   
     
 
