@@ -27,9 +27,4 @@ Convenience features during the match📷
 Bibble Pelón is equipped with 2 cameras connected to the roboRIO, providing a better view of the Intake and the whole field.
 
 Haptic indicators are used to aid drivers, as the controller will rumble when the shooter gets to its target velocity.
-<<<<<<< HEAD
-=======
 
-
-
->>>>>>> breakdowm
