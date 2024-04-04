@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,6 +22,8 @@ public class Wrist extends SubsystemBase
 
   // The wrist's encoder is defined here...
   private final DutyCycleEncoder wristEncoder = new DutyCycleEncoder(encoderChannels[4]);
+
+  private final VictorSP ampAdjuster = new VictorSP(0);
 
   /** Creates a new WristPID. */
   public Wrist()
@@ -49,6 +52,13 @@ public class Wrist extends SubsystemBase
     // Return the process variable measurement here
     return wristEncoder.getDistance();
   }
+
+  public void ampReady(double output)
+  {
+    ampAdjuster.set(output);
+  }
+  public Command ampAdjusterCommand(double output)
+  { return startEnd(() -> ampReady(output), () -> ampReady(0)); }
 
   @Override
   public void periodic()

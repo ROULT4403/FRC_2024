@@ -53,6 +53,9 @@ public class RobotContainer
   private static final Trigger lowWrist = chassisController.y();
   private static final Trigger shoot = mechController.rightTrigger();
   private static final Trigger outtake = mechController.leftTrigger();
+  private static final Trigger ampReady = mechController.povRight();
+  private static final Trigger ampBack = mechController.povLeft();
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer()
   {
@@ -75,6 +78,8 @@ public class RobotContainer
     shoot.whileTrue(shooter.shootCommand(1));
     saveWrist.whileTrue(wrist.wristCommand(.3));
     lowWrist.whileTrue(wrist.wristCommand(-.3));
+    ampReady.onTrue(wrist.ampAdjusterCommand(.4).withTimeout(.5));
+    ampBack.onTrue(wrist.ampAdjusterCommand(-.4).withTimeout(.5));
 
 
   }
