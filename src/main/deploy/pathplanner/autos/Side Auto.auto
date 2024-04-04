@@ -1,0 +1,31 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.8,
+      "y": 6.68
+    },
+    "rotation": 59.74
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Take Close Path"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Shoot Close Path"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "RoadToChamps",
+  "choreoAuto": false
+}

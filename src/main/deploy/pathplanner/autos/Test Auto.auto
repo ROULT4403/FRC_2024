@@ -1,0 +1,263 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.35,
+      "y": 5.55
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShootOn"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeOut"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "i_OFF"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "WristDown"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "WristOff"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Take Center Path"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "i_IN"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "i_OFF"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Shoot Center Path"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Wrist Up"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "WristOff"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShootOn"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeOut"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "i_OFF"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "WristDown"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "WristOff"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": " Take Side Path"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "i_IN"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "i_OFF"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Shoot Side Path"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Wrist Up"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "WristOff"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShootOn"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeOut"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "i_OFF"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "WristDown"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "WristOff"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "i_OFF"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShootOff"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "folder": "RoadToChamps",
+  "choreoAuto": false
+}
