@@ -2,76 +2,15 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.222273327429537,
+      "x": 1.35,
       "y": 5.55
     },
-    "rotation": 0.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootOn"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "IntakeOut"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootOff"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "i_OFF"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "WristDown"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Wrist Up"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WristOff"
-          }
-        },
         {
           "type": "named",
           "data": {
@@ -109,9 +48,93 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "WristDown"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WristOff"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.8
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CenterNote Get"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Wrist Up"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WristOff"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center Note Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootOn"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.35
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeOut"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootOff"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "i_OFF"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "LeftNote Get"
+                }
+              },
               {
                 "type": "sequential",
                 "data": {
@@ -125,7 +148,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.35
+                        "waitTime": 0.25
                       }
                     },
                     {
@@ -143,7 +166,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.2
+                        "waitTime": 1.9
                       }
                     },
                     {
@@ -189,6 +212,12 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "LeftNote Shoot"
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "ShootOn"
@@ -197,7 +226,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.2
+            "waitTime": 1.15
           }
         },
         {
@@ -205,10 +234,28 @@
           "data": {
             "name": "IntakeOut"
           }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "i_OFF"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootOff"
+          }
         }
       ]
     }
   },
-  "folder": "Red Side Auto",
+  "folder": "Blue Side Auto",
   "choreoAuto": false
 }

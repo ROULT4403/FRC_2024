@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 1.5770914424711733,
+        "x": 1.61,
         "y": 5.55
       },
       "prevControl": {
-        "x": 2.3370914424711735,
+        "x": 2.370000000000001,
         "y": 5.55
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "CenterPoint Final nomover"
     }
   ],
   "rotationTargets": [],

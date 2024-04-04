@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.35,
+        "x": 1.61,
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.917573402714373,
-        "y": 5.500598388584165
+        "x": 3.1783516481031917,
+        "y": 5.55
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "CenterPoint Final nomover"
     },
     {
       "anchor": {
-        "x": 2.76,
-        "y": 7.044463818657367
+        "x": 3.1010274449900104,
+        "y": 7.1088843935835255
       },
       "prevControl": {
-        "x": 1.7599999999999998,
-        "y": 7.044463818657367
+        "x": 1.621874937135445,
+        "y": 7.182842018976254
       },
       "nextControl": null,
       "isLocked": false,

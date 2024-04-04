@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.61,
-        "y": 5.55
+        "x": 2.4840977052269464,
+        "y": 4.17073377974601
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.6460668810070773,
-        "y": 5.55
+        "x": 1.5036532376999356,
+        "y": 4.17073377974601
       },
       "isLocked": false,
-      "linkedName": "CenterPoint Final nomover"
+      "linkedName": "ShootLeftCorner kms"
     },
     {
       "anchor": {
-        "x": 2.642389743353952,
-        "y": 3.621326870726
+        "x": -0.32731741139157966,
+        "y": 6.5
       },
       "prevControl": {
-        "x": 1.2519136190762656,
-        "y": 3.5591442518805936
+        "x": 3.1394462788925392,
+        "y": 9.476794422057335
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "RightGet"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -42,10 +42,10 @@
     "rotation": 0,
     "rotateFast": false
   },
-  "reversed": false,
-  "folder": "BlueCenter",
+  "reversed": true,
+  "folder": null,
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -3.2704879231836164,
     "velocity": 0
   },
   "useDefaultConstraints": true

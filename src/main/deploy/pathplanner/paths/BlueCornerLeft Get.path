@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.49,
-        "y": 5.500598388584165
+        "x": 0.7635575631511622,
+        "y": 6.6561862853455445
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4899999999999984,
-        "y": 5.500598388584165
+        "x": 2.115706258089338,
+        "y": 8.587254748840452
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "LeftBlueCorner Origin"
     },
     {
       "anchor": {
-        "x": 4.0,
-        "y": 6.0
+        "x": 2.4840977052269464,
+        "y": 4.17073377974601
       },
       "prevControl": {
-        "x": 3.0,
-        "y": 6.0
+        "x": 0.7701337258395449,
+        "y": 4.17073377974601
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "ShootLeftCorner kms"
     }
   ],
   "rotationTargets": [],
@@ -45,7 +45,7 @@
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 61.14433878028341,
     "velocity": 0
   },
   "useDefaultConstraints": true

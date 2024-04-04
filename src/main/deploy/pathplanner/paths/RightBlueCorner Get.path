@@ -3,52 +3,34 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.558602036122991,
-        "y": 5.500598388584165
+        "x": 0.41341649767378325,
+        "y": 4.7875324373189
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5586020361229895,
-        "y": 5.500598388584165
+        "x": 0.9982952679541486,
+        "y": 3.7744926909249017
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "EndPoint COrner SHoot"
     },
     {
       "anchor": {
-        "x": 4.0,
-        "y": 6.0
+        "x": 3.130267727440643,
+        "y": 6.241414987302248
       },
       "prevControl": {
-        "x": 3.0,
-        "y": 6.0
+        "x": 1.9209483784023804,
+        "y": 6.241414987302248
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "CornerRight Get Note Blue"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": null
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.0,
     "maxAcceleration": 4.0,
@@ -63,7 +45,7 @@
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -60.572543596810306,
     "velocity": 0
   },
   "useDefaultConstraints": true
