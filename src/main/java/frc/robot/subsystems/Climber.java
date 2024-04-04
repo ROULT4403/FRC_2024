@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.ElectronicConstants.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import static frc.robot.Constants.ClimberConstants.*;
 import com.ctre.phoenix6.hardware.TalonFX;
 public class Climber extends SubsystemBase{
@@ -19,7 +18,9 @@ public class Climber extends SubsystemBase{
   // The climber's limit switch is defined here...
   private final DigitalInput upperSwitch = new DigitalInput(limitSwitchChannel[0]);
   private final DigitalInput lowerSwitch = new DigitalInput(limitSwitchChannel[1]);
-  private AtomicInteger atomicMultiplier = new AtomicInteger(1);
+  private double speedMultiplier = 1;
+  public Integer commandSpeed = 0;
+
 
 
   /** Creates a new Climber. */
@@ -38,30 +39,37 @@ public class Climber extends SubsystemBase{
 
 
   /** Activates climber mechanism, stopping until the limit switch is pressed or the */
-      public Command climbUp() {
+      public Command climbUp(double input) {
+        setClimbDirection(1);
 
-      return startEnd(() -> climb(.6/atomicMultiplier.get()), () ->climb(0.0)).until(upperSwitch::get).until(this::climberUpSwitch);
+      return startEnd(() -> climb(input), () ->climb(0.0)).until(upperSwitch::get);
 
 }
-  public Command climbDown() {
+  public Command climbDown(double input) {
+    setClimbDirection(-1);
 
-    return startEnd(() -> climb(-.6), () ->climb(0.0)).until(lowerSwitch::get).until(this::climberDownSwitch);
+    return startEnd(() -> climb(input), () ->climb(0.0)).until(lowerSwitch::get);
+  }
+  public void setClimbDirection(Integer direction){
+    commandSpeed = direction;
+
   }
 
   public void climb(double speed)
   {
-    leftClimber.set(speed);
-    rightClimber.set(speed);
+
+    leftClimber.set(speed/speedMultiplier);
+    rightClimber.set(speed/speedMultiplier);
   }
 
   public boolean climberUpSwitch(){
-    if(getMeasurement()>.0037){
+    if(getMeasurement()>.0049){
       return true;
     }
     else return false;
   }
     public boolean climberDownSwitch(){
-    if(getMeasurement()>-.0){
+    if(getMeasurement()<-.0005){
       return true;
     }
     else return false;
@@ -89,5 +97,9 @@ public class Climber extends SubsystemBase{
     SmartDashboard.putNumber("Climber Pos", getMeasurement());
     SmartDashboard.putBoolean("UpperSwitch Status", upperSwitch.get());
     SmartDashboard.putBoolean("LowerSwitch Status", lowerSwitch.get());
+    if(getMeasurement()>.0036 && commandSpeed==1){
+      speedMultiplier=2.0;
+    }
+    else speedMultiplier=1.0;
   }}
 
