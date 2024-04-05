@@ -70,8 +70,8 @@ public class RobotContainer
 
     take.whileTrue(intake.intakeCommand(.3));
     outtake.whileTrue(intake.intakeCommand(-1));
-    climberUp.whileTrue(climber.climbUp(.6).until(climber::climberUpSwitch));
-    climberDown.whileTrue(climber.climbDown(-.6).until(climber::climberDownSwitch));
+    climberUp.whileTrue(climber.climbUp(1.0).until(climber::climberUpSwitch));
+    climberDown.whileTrue(climber.climbDown(-.6));
     shoot.whileTrue(shooter.shootCommand(1));
     saveWrist.whileTrue(wrist.wristCommand(.3));
     lowWrist.whileTrue(wrist.wristCommand(-.3));
