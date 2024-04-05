@@ -77,7 +77,7 @@ public final class Constants
   public static class WristConstants
   {
     // The distance per rotation is defined here...
-    public static final double wristDistancePerRotation = 2 * Math.PI;
+    public static final double wristDistancePerRotation = 360;
   }
 
   /** The climber values are defined here... */

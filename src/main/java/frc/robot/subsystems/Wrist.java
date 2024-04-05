@@ -3,14 +3,17 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+import static edu.wpi.first.units.Units.Degree;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Volts;
+import static edu.wpi.first.units.Units.VoltsPerMeterPerSecond;
 import static edu.wpi.first.units.Units.Radian;
 import edu.wpi.first.wpilibj.Encoder;
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.Rotation;
+import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volt;
 import static edu.wpi.first.units.MutableMeasure.mutable;
 
@@ -20,6 +23,8 @@ import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.MutableMeasure;
 import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
+import edu.wpi.first.units.*;
+
 
 import com.revrobotics.CANSparkMax;
 
@@ -41,15 +46,19 @@ public class Wrist extends SubsystemBase
   private final CANSparkMax wrist = new CANSparkMax(3, neoMotorType);
 
   // The wrist's encoder is defined here...
-private final DutyCycleEncoder wristEncoder = new DutyCycleEncoder(1);  //MutableMeasure variables for sysID
-
+private final Encoder wristEncoder = new Encoder(1,2);  //MutableMeasure variables for sysID
 private final MutableMeasure<Voltage> m_appliedVoltage = mutable(Volts.of(0));
 private final MutableMeasure<Angle> m_Position = mutable(Degrees.of(0));
 private final MutableMeasure<Velocity<Angle>> m_wristVelocity = mutable(DegreesPerSecond.of(0));
+
+
 private SysIdRoutine m_sysIdRoutine = 
-new SysIdRoutine(new SysIdRoutine.Config(), new SysIdRoutine.Mechanism((Measure<Voltage> volts)-> {wrist.setVoltage(volts.in(Volts));}, log -> {
-  log.motor("wrist-motor").voltage(m_appliedVoltage.mut_replace(wrist.get() * RobotController.getBatteryVoltage(), Volts))
-  .angularPosition(m_Position.mut_replace(wristEncoder.getAbsolutePosition(), Degrees));},this));
+new SysIdRoutine(new SysIdRoutine.Config(Volts.of(.2).per(Seconds.of(1)), Volts.of(1),null), 
+new SysIdRoutine.Mechanism((Measure<Voltage> volts)-> {wrist.setVoltage(volts.in(Volts));}, 
+log -> {
+  log.motor("wrist-motor").voltage(m_appliedVoltage.mut_replace(wrist.getBusVoltage() * RobotController.getBatteryVoltage(), Volts))
+  .angularPosition(m_Position.mut_replace(wristEncoder.getDistance(), Degrees))
+  .angularVelocity(m_wristVelocity.mut_replace(wristEncoder.getRate(), DegreesPerSecond));},this));
 
 
   /** Creates a new WristPID. */
@@ -57,12 +66,10 @@ new SysIdRoutine(new SysIdRoutine.Config(), new SysIdRoutine.Mechanism((Measure<
   {
     // The motor's mode is defined here...
     wrist.setIdleMode(neoBrakeMode);
-
     // The motor's inversion is defined here...
     wrist.setInverted(clockWise);
-
     // The encoders' distance per rotation are defined here...
-    wristEncoder.setDistancePerRotation(wristDistancePerRotation);
+    wristEncoder.setDistancePerPulse(360/8192);
   }
 
   
@@ -74,11 +81,18 @@ new SysIdRoutine(new SysIdRoutine.Config(), new SysIdRoutine.Mechanism((Measure<
   }
   public Command wristCommand(double output){
           return startEnd(() -> moveWrist(output), () ->moveWrist(0.0));}
+  public Command sysIdQuasistatic(SysIdRoutine.Direction direction){
+    return m_sysIdRoutine.quasistatic(direction);
+  }
+    public Command sysIdDynamic(SysIdRoutine.Direction direction){
+    return m_sysIdRoutine.dynamic(direction);
+  }
 
   /** Use to get the wrist's position... */
   public double getMeasurement()
   {
     // Return the process variable measurement here
+    
     return wristEncoder.getDistance();
   }
 
