@@ -18,6 +18,8 @@ import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volt;
 import static edu.wpi.first.units.MutableMeasure.mutable;
 
+import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
@@ -33,6 +35,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
@@ -41,11 +44,11 @@ import static frc.robot.Constants.WristConstants.*;
 
 import javax.swing.text.Position;
 
-public class Wrist extends SubsystemBase
+public class PIDWrist extends PIDSubsystem
 {
   // The wrist's motor controller is defined here...
   private final CANSparkMax wrist = new CANSparkMax(3, neoMotorType);
-
+private final ArmFeedforward feedforward = new ArmFeedforward(0.37485, 7.0038, 0.11421, 1.0256);
   // The wrist's encoder is defined here...
 private final Encoder wristEncoder = new Encoder(2,3);  //MutableMeasure variables for sysID
 private final MutableMeasure<Voltage> m_appliedVoltage = mutable(Volts.of(0));
@@ -63,14 +66,16 @@ log -> {
 
 
   /** Creates a new WristPID. */
-  public Wrist()
+  public PIDWrist()
   {
+    super(new PIDController(62.192,0,0));
     // The motor's mode is defined here...
     wrist.setIdleMode(neoBrakeMode);
     // The motor's inversion is defined here...
     wrist.setInverted(clockWise);
     // The encoders' distance per rotation are defined here...
     wristEncoder.setDistancePerPulse((2 * Math.PI)/8192);
+    getController().setTolerance(.005);
   }
 
   
@@ -88,8 +93,11 @@ log -> {
     public Command sysIdDynamic(SysIdRoutine.Direction direction){
     return m_sysIdRoutine.dynamic(direction);
   }
-
-  /** Use to get the wrist's position... */
+  @Override
+  public void useOutput(double output,double setpoint){
+    wrist.setVoltage(output);
+  }
+  @Override
   public double getMeasurement()
   {
     // Return the process variable measurement here

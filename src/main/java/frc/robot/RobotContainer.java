@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.subsystems.AutoConfig;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
@@ -51,8 +52,12 @@ public class RobotContainer
   private static final Trigger climberDown = chassisController.povDown();
   private static final Trigger saveWrist = chassisController.x();
   private static final Trigger lowWrist = chassisController.y();
-  private static final Trigger shoot = mechController.rightTrigger();
-  private static final Trigger outtake = mechController.leftTrigger();
+  //private static final Trigger shoot = mechController.rightTrigger();
+  private static final Trigger quadstatic = mechController.rightTrigger();
+  private static final Trigger quadstaticNeg = mechController.leftTrigger();
+    private static final Trigger dynamic = mechController.a();
+  private static final Trigger dynamicNeg = mechController.b();
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer()
   {
@@ -69,10 +74,14 @@ public class RobotContainer
   {
 
     take.whileTrue(intake.intakeCommand(.3));
-    outtake.whileTrue(intake.intakeCommand(-1));
+    //outtake.whileTrue(intake.intakeCommand(-1));
     climberUp.whileTrue(climber.climbUp(1.0).until(climber::climberUpSwitch));
     climberDown.whileTrue(climber.climbDown(-.6));
-    shoot.whileTrue(shooter.shootCommand(1));
+    quadstatic.whileTrue(wrist.sysIdQuasistatic(Direction.kReverse));
+    quadstaticNeg.whileTrue(wrist.sysIdQuasistatic(Direction.kForward));
+     dynamic.whileTrue(wrist.sysIdDynamic(Direction.kReverse));
+    dynamicNeg.whileTrue(wrist.sysIdDynamic(Direction.kForward));
+
     saveWrist.whileTrue(wrist.wristCommand(.3));
     lowWrist.whileTrue(wrist.wristCommand(-.3));
 
