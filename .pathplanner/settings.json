@@ -3,10 +3,12 @@
   "robotLength": 0.9,
   "holonomicMode": false,
   "pathFolders": [
-    "BlueCenter"
+    "BlueCenter",
+    "Side auto_no borrar"
   ],
   "autoFolders": [
     "Blue Side Auto",
+    "No borrar_side",
     "Red Side Auto"
   ],
   "defaultMaxVel": 4.0,

@@ -5,14 +5,20 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.revrobotics.ColorSensorV3;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.ElectronicConstants.*;
+import static frc.robot.Constants.IntakeConstants.proximitySetpoint;
 
 public class Intake extends SubsystemBase
 {
   // The intake's motor controllers are defined here...
   private final TalonFX intake = new TalonFX(talonFXIDs[0]);
+
+  private final ColorSensorV3 colorSensor = new ColorSensorV3(colorSensorPort);
 
   /** Creates a new Intake. */
   public Intake()
@@ -30,13 +36,25 @@ public class Intake extends SubsystemBase
     intake.set(output);
   }
     public Command intakeCommand(double output) {
-      return startEnd(() -> activate(output), () ->activate(0.0));
+      return startEnd(() -> activate(output), () ->activate(0.0)).until(() -> getMeasurement() >= proximitySetpoint);
 
 }
+
+    public Command outtakeCommand(double output)
+    {
+      return startEnd(() -> activate(output), () ->activate(0.0));
+    }
 
   @Override
   public void periodic()
   {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Note Proximity", getMeasurement());
+  }
+
+  private double getMeasurement()
+  {
+    int proximity = colorSensor.getProximity();
+    return proximity;
   }
 }

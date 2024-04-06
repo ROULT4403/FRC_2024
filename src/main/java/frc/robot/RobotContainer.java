@@ -74,7 +74,7 @@ public class RobotContainer
   {
 
     take.whileTrue(intake.intakeCommand(.45));
-    outtake.whileTrue(intake.intakeCommand(-1));
+    outtake.whileTrue(intake.outtakeCommand(-1));
     climberUp.whileTrue(climber.climbUp(.8).until(climber::climberUpSwitch));
     climberDown.whileTrue(climber.climbDown(-.6).until(climber::climberDownSwitch));
     shoot.whileTrue(shooter.shootCommand(1));
