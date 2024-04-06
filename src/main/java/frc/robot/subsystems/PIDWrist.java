@@ -76,6 +76,7 @@ log -> {
     // The encoders' distance per rotation are defined here...
     wristEncoder.setDistancePerPulse((2 * Math.PI)/8192);
     getController().setTolerance(.005);
+    setSetpoint(-.36);
   }
 
   

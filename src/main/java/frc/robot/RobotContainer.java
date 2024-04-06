@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -16,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.subsystems.AutoConfig;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.PIDWrist;
 import frc.robot.subsystems.shooter;
 import frc.robot.subsystems.TankDrive;
 import frc.robot.subsystems.Wrist;
@@ -37,7 +39,7 @@ public class RobotContainer
 
   public static final TankDrive tankDrive = new TankDrive();
   public static final Climber climber = new Climber();
-  public static final Wrist wrist = new Wrist();
+  public static final PIDWrist wrist = new PIDWrist();
   public static final Intake intake = new Intake();
   public static final shooter shooter = new shooter();
   public static final AutoConfig autoConfig = new AutoConfig();
@@ -57,6 +59,8 @@ public class RobotContainer
   private static final Trigger quadstaticNeg = mechController.leftTrigger();
     private static final Trigger dynamic = mechController.a();
   private static final Trigger dynamicNeg = mechController.b();
+  private final Command wristgetToSetpoint = Commands.runOnce(wrist::enable, wrist);
+  private final Command cancel = Commands.runOnce(wrist::disable, wrist);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer()
@@ -75,15 +79,12 @@ public class RobotContainer
 
     take.whileTrue(intake.intakeCommand(.3));
     //outtake.whileTrue(intake.intakeCommand(-1));
-    climberUp.whileTrue(climber.climbUp(1.0).until(climber::climberUpSwitch));
-    climberDown.whileTrue(climber.climbDown(-.6));
-    quadstatic.whileTrue(wrist.sysIdQuasistatic(Direction.kReverse));
-    quadstaticNeg.whileTrue(wrist.sysIdQuasistatic(Direction.kForward));
-     dynamic.whileTrue(wrist.sysIdDynamic(Direction.kReverse));
-    dynamicNeg.whileTrue(wrist.sysIdDynamic(Direction.kForward));
+    climberUp.whileTrue(wrist.wristCommand(.3));
+    climberDown.whileTrue(wrist.wristCommand(-.3));
+ 
 
     saveWrist.whileTrue(wrist.wristCommand(.3));
-    lowWrist.whileTrue(wrist.wristCommand(-.3));
+    lowWrist.onTrue(wristgetToSetpoint);
 
 
   }
