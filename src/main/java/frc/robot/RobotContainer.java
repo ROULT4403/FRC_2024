@@ -53,6 +53,8 @@ public class RobotContainer
   private static final Trigger lowWrist = chassisController.y();
   private static final Trigger shoot = mechController.rightTrigger();
   private static final Trigger outtake = mechController.leftTrigger();
+  private static final Trigger feed = mechController.rightBumper();
+
   private static final Trigger ampReady = mechController.povRight();
   private static final Trigger ampBack = mechController.povLeft();
 
@@ -71,15 +73,17 @@ public class RobotContainer
   private void configureBindings()
   {
 
-    take.whileTrue(intake.intakeCommand(.3));
+    take.whileTrue(intake.intakeCommand(.45));
     outtake.whileTrue(intake.intakeCommand(-1));
-    climberUp.whileTrue(climber.climbUp(.6).until(climber::climberUpSwitch));
+    climberUp.whileTrue(climber.climbUp(.8).until(climber::climberUpSwitch));
     climberDown.whileTrue(climber.climbDown(-.6).until(climber::climberDownSwitch));
     shoot.whileTrue(shooter.shootCommand(1));
+    feed.whileTrue(shooter.shootCommand(.6));
+
     saveWrist.whileTrue(wrist.wristCommand(.3));
     lowWrist.whileTrue(wrist.wristCommand(-.3));
-    ampReady.onTrue(wrist.ampAdjusterCommand(.4).withTimeout(.5));
-    ampBack.onTrue(wrist.ampAdjusterCommand(-.4).withTimeout(.5));
+    //ampReady.onTrue(wrist.ampAdjusterCommand(.4).withTimeout(.5));
+    //ampBack.onTrue(wrist.ampAdjusterCommand(-.4).withTimeout(.5));
 
 
   }
