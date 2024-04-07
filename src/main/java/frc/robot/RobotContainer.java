@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -42,12 +43,13 @@ public class RobotContainer
   public static final AutoConfig autoConfig = new AutoConfig();
 
   // The driver's controllers are defined here...
-  private static final CommandXboxController chassisController = new CommandXboxController(controllersPort[0]);
+  public static final CommandXboxController chassisController = new CommandXboxController(controllersPort[0]);
   public static final CommandXboxController mechController = new CommandXboxController(controllersPort[1]);
+  public static final XboxController rumbleMechController = mechController.getHID();
 
   //The driver's triggers are defined here...
   private static final Trigger take = chassisController.a().or(chassisController.b());
-  private static final Trigger climberUp = chassisController.povUp();
+  private static final Trigger climberUp = chassisController.povUp().or(mechController.povUp());
   private static final Trigger climberDown = chassisController.povDown();
   private static final Trigger saveWrist = chassisController.x();
   private static final Trigger lowWrist = chassisController.y();

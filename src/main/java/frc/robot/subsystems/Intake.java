@@ -7,9 +7,13 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.ColorSensorV3;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.RobotContainer;
+
 import static frc.robot.Constants.ElectronicConstants.*;
 import static frc.robot.Constants.IntakeConstants.proximitySetpoint;
 
@@ -36,7 +40,7 @@ public class Intake extends SubsystemBase
     intake.set(output);
   }
     public Command intakeCommand(double output) {
-      return startEnd(() -> activate(output), () ->activate(0.0)).until(() -> getMeasurement() >= proximitySetpoint);
+      return startEnd(() -> activate(output), () ->activate(0.0)).until(this::getMeasurement);
 
 }
 
@@ -48,13 +52,26 @@ public class Intake extends SubsystemBase
   @Override
   public void periodic()
   {
+    if(getMeasurement() && RobotContainer.chassisController.b().getAsBoolean()){
+      RobotContainer.chassisController.getHID().setRumble(RumbleType.kBothRumble, .6);
+    }
+    else{RobotContainer.chassisController.getHID().setRumble(RumbleType.kBothRumble, 0);
+    }
+
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Note Proximity", getMeasurement());
+    SmartDashboard.putBoolean("Note Proximity", getMeasurement());
   }
 
-  private double getMeasurement()
+  private Boolean getMeasurement()
   {
     int proximity = colorSensor.getProximity();
-    return proximity;
+    if(proximity>300){
+      return true;
+    }
+    else return false;
+
+
+
   }
+  
 }
