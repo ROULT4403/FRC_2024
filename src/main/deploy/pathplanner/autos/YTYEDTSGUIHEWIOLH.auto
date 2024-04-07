@@ -1,0 +1,31 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.61,
+      "y": 5.55
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LeftNote Get"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NEWNIMPROVED LeftNote Shoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Blue Side Auto",
+  "choreoAuto": false
+}
