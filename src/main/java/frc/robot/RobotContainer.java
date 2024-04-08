@@ -4,16 +4,15 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.ArmPID;
 import frc.robot.subsystems.AutoConfig;
 import frc.robot.subsystems.Climber;
@@ -45,21 +44,22 @@ public class RobotContainer
   public static final AutoConfig autoConfig = new AutoConfig();
 
   // The driver's controllers are defined here...
-  private static final CommandXboxController chassisController = new CommandXboxController(controllersPort[0]);
+  public static final CommandXboxController chassisController = new CommandXboxController(controllersPort[0]);
   public static final CommandXboxController mechController = new CommandXboxController(controllersPort[1]);
+  public static final XboxController rumbleMechController = mechController.getHID();
 
   //The driver's triggers are defined here...
   private static final Trigger take = chassisController.a().or(chassisController.b());
-  private static final Trigger climberUp = chassisController.povUp();
+  private static final Trigger climberUp = chassisController.povUp().or(mechController.povUp());
   private static final Trigger climberDown = chassisController.povDown();
   private static final Trigger saveWrist = chassisController.x();
   private static final Trigger lowWrist = chassisController.y();
-  //private static final Trigger shoot = mechController.rightTrigger();
-  private static final Trigger wristCancel = chassisController.rightTrigger();
-  private static final Trigger quadstaticNeg = mechController.leftTrigger();
-    private static final Trigger dynamic = mechController.a();
-  private static final Trigger dynamicNeg = mechController.b();
+  private static final Trigger shoot = chassisController.rightTrigger();
+  private static final Trigger outtake = chassisController.leftTrigger();
+  private static final Trigger feed = mechController.rightBumper();
 
+  private static final Trigger ampReady = mechController.povRight();
+  private static final Trigger ampBack = mechController.povLeft();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer()
@@ -76,10 +76,15 @@ public class RobotContainer
   private void configureBindings()
   {
 
+    take.whileTrue(intake.intakeCommand(.45));
+    outtake.whileTrue(intake.intakeCommand(-1));
+    shoot.whileTrue(new ArmPID(wrist, -.263));
+    feed.whileTrue(shooter.shootCommand(.6));
 
- 
-    
-    wristCancel.whileTrue(new ArmPID(wrist,-.282 ));
+    saveWrist.whileTrue(wrist.wristCommand(.3));
+    lowWrist.whileTrue(wrist.wristCommand(-.3));
+    //ampReady.onTrue(wrist.ampAdjusterCommand(.4).withTimeout(.5));
+    //ampBack.onTrue(wrist.ampAdjusterCommand(-.4).withTimeout(.5));
 
 
   }
@@ -93,5 +98,4 @@ public class RobotContainer
   {
     return autoChooser.getSelected();
   }
-
 }
