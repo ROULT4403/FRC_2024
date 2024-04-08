@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SPI.Port;
 
@@ -57,6 +58,8 @@ public final class Constants
     // The motors' RPM are defined here...
     public static final int neoRPM = 5676;
     public static final int falconRPM = 6380;
+
+    public static final I2C.Port colorSensorPort = I2C.Port.kOnboard;
   }
 
   /** The chassis values are defined here... */
@@ -78,6 +81,11 @@ public final class Constants
   {
     // The distance per rotation is defined here...
     public static final double wristDistancePerRotation = 2 * Math.PI;
+  }
+
+  public static class IntakeConstants
+  {
+    public static final int proximitySetpoint = 2047;  
   }
 
   /** The climber values are defined here... */
