@@ -42,7 +42,7 @@ public class RobotContainer
   public static final AutoConfig autoConfig = new AutoConfig();
 
   // The driver's controllers are defined here...
-  private static final CommandXboxController chassisController = new CommandXboxController(controllersPort[0]);
+  public static final CommandXboxController chassisController = new CommandXboxController(controllersPort[0]);
   public static final CommandXboxController mechController = new CommandXboxController(controllersPort[1]);
 
   //The driver's triggers are defined here...

@@ -7,10 +7,13 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.RobotContainer;
 
 import static frc.robot.Constants.ElectronicConstants.*;
 import static frc.robot.Constants.WristConstants.*;
@@ -59,11 +62,23 @@ public class Wrist extends SubsystemBase
   }
   public Command ampAdjusterCommand(double output)
   { return startEnd(() -> ampReady(output), () -> ampReady(0)); }
+public void rumbleAction(CommandXboxController chassis,CommandXboxController mech){
+  if (!chassis.x().getAsBoolean()){
+    mech.getHID().setRumble(RumbleType.kLeftRumble, 0);
+  }
+  else{
+    mech.getHID().setRumble(RumbleType.kLeftRumble, 1);
 
+  }
+}
   @Override
   public void periodic()
   {
-    // This method will be called once per scheduler run
+
+
+rumbleAction(RobotContainer.chassisController, RobotContainer.mechController);
+    
     SmartDashboard.putNumber("Wrist Pos", getMeasurement());
+
+    }
   }
-}
