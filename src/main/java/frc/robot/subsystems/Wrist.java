@@ -81,7 +81,7 @@ log -> {
     wrist.set(output);
   }
   public Command wristCommand(double output){
-          return startEnd(() -> moveWrist(output), () ->moveWrist(0.0));}
+          return startEnd(() -> moveWrist(output), () ->moveWrist(0));}
   public Command sysIdQuasistatic(SysIdRoutine.Direction direction){
     return m_sysIdRoutine.quasistatic(direction);
   }

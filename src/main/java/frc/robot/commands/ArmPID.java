@@ -5,6 +5,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDCommand;
 import frc.robot.subsystems.Wrist;
@@ -14,17 +16,17 @@ import frc.robot.subsystems.Wrist;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ArmPID extends PIDCommand {
   /** Creates a new ArmPID. */
-  public ArmPID(Wrist wrist, double setpoint) {
+  public ArmPID(Wrist wrist, double targetAngle) {
     super(
         // The controller that the command will use
         //new PIDController(62.192, 0, 0),
-        new PIDController(1.5, 0, 0),
+       new PIDController(1.5, 0, 0),
         // This should return the measurement
         wrist::getMeasurement,
         // This should return the setpoint (can also be a constant)
-        setpoint,
+        targetAngle,
         // This uses the output
-        output -> {
+        (output) -> {
           wrist.moveWrist(output);          // Use the output here
         });
     // Use addRequirements() here to declare subsystem dependencies.

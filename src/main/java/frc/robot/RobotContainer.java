@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArmPID;
+import frc.robot.commands.TargetRPM;
 import frc.robot.subsystems.AutoConfig;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
@@ -78,7 +79,7 @@ public class RobotContainer
 
     take.whileTrue(intake.intakeCommand(.45));
     outtake.whileTrue(intake.intakeCommand(-1));
-    shoot.whileTrue(new ArmPID(wrist, -.263));
+    shoot.whileTrue(new TargetRPM(shooter, 3500 ));
     feed.whileTrue(shooter.shootCommand(.6));
 
     saveWrist.whileTrue(wrist.wristCommand(.3));
