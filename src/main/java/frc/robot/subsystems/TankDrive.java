@@ -173,7 +173,7 @@ public class TankDrive extends SubsystemBase
     odometry.resetPosition(navx.getRotation2d(), leftEncoder.getDistance(), rightEncoder.getDistance(), pose);
     */
     reset();
-    odometry.resetPosition(Rotation2d.fromDegrees(pose.getRotation().getDegrees()),leftEncoder.getDistance(), rightEncoder.getDistance(), pose);
+    odometry.resetPosition(navx.getRotation2d(),leftEncoder.getDistance(), rightEncoder.getDistance(), pose);
   }
 
   @Override

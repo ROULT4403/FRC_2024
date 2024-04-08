@@ -14,10 +14,10 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.commands.ArmPID;
 import frc.robot.subsystems.AutoConfig;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.PIDWrist;
 import frc.robot.subsystems.shooter;
 import frc.robot.subsystems.TankDrive;
 import frc.robot.subsystems.Wrist;
@@ -39,7 +39,7 @@ public class RobotContainer
 
   public static final TankDrive tankDrive = new TankDrive();
   public static final Climber climber = new Climber();
-  public static final PIDWrist wrist = new PIDWrist();
+  public static final Wrist wrist = new Wrist();
   public static final Intake intake = new Intake();
   public static final shooter shooter = new shooter();
   public static final AutoConfig autoConfig = new AutoConfig();
@@ -55,12 +55,11 @@ public class RobotContainer
   private static final Trigger saveWrist = chassisController.x();
   private static final Trigger lowWrist = chassisController.y();
   //private static final Trigger shoot = mechController.rightTrigger();
-  private static final Trigger quadstatic = mechController.rightTrigger();
+  private static final Trigger wristCancel = chassisController.rightTrigger();
   private static final Trigger quadstaticNeg = mechController.leftTrigger();
     private static final Trigger dynamic = mechController.a();
   private static final Trigger dynamicNeg = mechController.b();
-  private final Command wristgetToSetpoint = Commands.runOnce(wrist::enable, wrist);
-  private final Command cancel = Commands.runOnce(wrist::disable, wrist);
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer()
@@ -77,14 +76,10 @@ public class RobotContainer
   private void configureBindings()
   {
 
-    take.whileTrue(intake.intakeCommand(.3));
-    //outtake.whileTrue(intake.intakeCommand(-1));
-    climberUp.whileTrue(wrist.wristCommand(.3));
-    climberDown.whileTrue(wrist.wristCommand(-.3));
- 
 
-    saveWrist.whileTrue(wrist.wristCommand(.3));
-    lowWrist.onTrue(wristgetToSetpoint);
+ 
+    
+    wristCancel.whileTrue(new ArmPID(wrist,-.282 ));
 
 
   }
@@ -98,4 +93,5 @@ public class RobotContainer
   {
     return autoChooser.getSelected();
   }
+
 }
