@@ -52,7 +52,7 @@ public final class Constants
 
     // The encoders/sensors channels are defined here...
     public static final int[] encoderChannels = new int[] {7, 8, 5, 6, 4};
-    public static final int[] limitSwitchChannel = new int[] {0, 1};
+    public static final int[] limitSwitchChannel = new int[] {1, 0};
     public static final Port navxPort = SPI.Port.kMXP;
 
     // The motors' RPM are defined here...

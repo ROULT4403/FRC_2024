@@ -32,12 +32,9 @@ public class ArmPID extends PIDCommand {
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
     addRequirements(wrist);
-    getController().setTolerance((-.0001));
+    getController().setTolerance((-.00001));
   }
 
   // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return getController().atSetpoint();
-  }
+
 }

@@ -8,11 +8,17 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.units.Angle;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.MutableMeasure;
+import edu.wpi.first.units.Velocity;
+import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.RobotContainer;
 
 import static frc.robot.Constants.ElectronicConstants.*;
@@ -27,13 +33,13 @@ public class shooter extends SubsystemBase
   private final RelativeEncoder leftEncoder = leftShooter.getEncoder();
   private final RelativeEncoder rightEncoder = rightShooter.getEncoder();
 
+
   /** Creates a new Shooter. */
   public shooter()
   {
     // The motors' modes are defined here...
     leftShooter.setIdleMode(neoCoastMode);
     rightShooter.setIdleMode(neoCoastMode);
-
     // The motors' inversion are defined here...
     leftShooter.setInverted(counterClockWise);
     rightShooter.setInverted(clockWise);

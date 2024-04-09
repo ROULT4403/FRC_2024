@@ -66,7 +66,7 @@ public class Intake extends SubsystemBase
   {
     int proximity = colorSensor.getProximity();
     if(proximity>300){
-      return true;
+      return false;
     }
     else return false;
 

@@ -58,8 +58,8 @@ public class Climber extends SubsystemBase{
   public void climb(double speed)
   {
 
-    leftClimber.set(speed/speedMultiplier);
-    rightClimber.set(speed/speedMultiplier);
+    leftClimber.set(speed);
+    rightClimber.set(speed);
   }
 
   public boolean climberUpSwitch(){
@@ -69,7 +69,7 @@ public class Climber extends SubsystemBase{
     else return false;
   }
     public boolean climberDownSwitch(){
-    if(getMeasurement()<-.0005){
+    if(getMeasurement()<=0){
       return true;
     }
     else return false;
@@ -97,9 +97,6 @@ public class Climber extends SubsystemBase{
     SmartDashboard.putNumber("Climber Pos", getMeasurement());
     SmartDashboard.putBoolean("UpperSwitch Status", upperSwitch.get());
     SmartDashboard.putBoolean("LowerSwitch Status", lowerSwitch.get());
-    if(getMeasurement()>.0036 && commandSpeed==1){
-      speedMultiplier=2.0;
-    }
-    else speedMultiplier=1.0;
+
   }}
 
