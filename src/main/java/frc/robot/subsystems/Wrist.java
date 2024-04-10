@@ -102,6 +102,6 @@ log -> {
   public void periodic()
   {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Wrist Position", wristEncoder.getDistance());
+    SmartDashboard.putNumber("Wrist Position", (wristEncoder.getDistance()));
   }
 }

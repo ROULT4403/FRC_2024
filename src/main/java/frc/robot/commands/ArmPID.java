@@ -20,7 +20,7 @@ public class ArmPID extends PIDCommand {
     super(
         // The controller that the command will use
         //new PIDController(62.192, 0, 0),
-       new PIDController(1.5, 0, 0),
+       new PIDController(1.3, 0, 0),
         // This should return the measurement
         wrist::getMeasurement,
         // This should return the setpoint (can also be a constant)

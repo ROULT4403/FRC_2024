@@ -38,8 +38,8 @@ public class TankDrive extends SubsystemBase
   private final CANSparkMax followRight = new CANSparkMax(sparkMaxIDs[3], neoMotorType);
 
   // The tank drive's encoders/sensors are defined here...
-  private final Encoder leftEncoder = new Encoder(encoderChannels[0], encoderChannels[1]);
-  private final Encoder rightEncoder = new Encoder(encoderChannels[2], encoderChannels[3]);
+  private final Encoder leftEncoder = new Encoder(6, 7);
+  private final Encoder rightEncoder = new Encoder(4, 5);
   private final AHRS navx = new AHRS(navxPort);
 
   // The differential drive is defined here...

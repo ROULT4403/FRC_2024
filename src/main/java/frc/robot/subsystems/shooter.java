@@ -50,6 +50,9 @@ public class shooter extends SubsystemBase
   {
     //leftShooter.set(output);
     //rightShooter.set(output);
+    leftShooter.setSmartCurrentLimit(40);
+    rightShooter.setSmartCurrentLimit(40);
+
 
     leftShooter.set(output);
     rightShooter.set(output);

@@ -50,16 +50,16 @@ public class RobotContainer
   public static final XboxController rumbleMechController = mechController.getHID();
 
   //The driver's triggers are defined here...
-  private static final Trigger take = chassisController.a().or(chassisController.b());
+  private static final Trigger take = mechController.a().or(chassisController.b());
   private static final Trigger climberUp = chassisController.povUp().or(mechController.povUp());
   private static final Trigger climberDown = chassisController.povDown();
   private static final Trigger saveWrist = chassisController.x();
   private static final Trigger lowWrist = chassisController.y();
   private static final Trigger shoot = mechController.rightTrigger();
-  private static final Trigger outtake = chassisController.leftTrigger();
+  private static final Trigger outtake = mechController.leftTrigger();
   private static final Trigger feed = mechController.rightBumper();
 
-  private static final Trigger amp = chassisController.povRight();
+  private static final Trigger amp = chassisController.povRight().or(mechController.povRight());
   private static final Trigger ampBack = chassisController.povLeft();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -81,15 +81,16 @@ public class RobotContainer
     outtake.whileTrue(intake.outtakeCommand(-.24));
     climberUp.whileTrue(climber.climbUp(.8).until(climber::climberUpSwitch));
     climberDown.whileTrue(climber.climbDown(-.6).until(climber::climberDownSwitch));
-    shoot.whileTrue(new TargetRPM(shooter, 3500));
-    feed.whileTrue(shooter.shootCommand(.6)); //    amp.onTrue(new ArmPID(wrist, ));
+    shoot.whileTrue(shooter.shootCommand(1));
+    feed.whileTrue(shooter.shootCommand(.7)); //    amp.onTrue(new ArmPID(wrist, ));
 
-        amp.onTrue(new ArmPID(wrist, -0.232398-.02));
+        //amp.onTrue(new ArmPID(wrist, -0.232398-.02));
+        amp.onTrue(new ArmPID(wrist,  (-0.25)));
 
         ampBack.onTrue(new ArmPID(wrist, 0));
 
-    lowWrist.whileTrue(wrist.wristCommand(-.3));
-    saveWrist.whileTrue(new ArmPID(wrist, 0));
+    lowWrist.whileTrue(wrist.wristCommand((-.4)));
+    saveWrist.whileTrue(wrist.wristCommand((.35)));
     //ampReady.onTrue(wrist.ampAdjusterCommand(.4).withTimeout(.5));
     //ampBack.onTrue(wrist.ampAdjusterCommand(-.4).withTimeout(.5));
 
