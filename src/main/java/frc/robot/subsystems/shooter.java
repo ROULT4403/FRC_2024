@@ -30,6 +30,7 @@ public class shooter extends SubsystemBase
   /** Creates a new Shooter. */
   public shooter()
   {
+    
     // The motors' modes are defined here...
     leftShooter.setIdleMode(neoCoastMode);
     rightShooter.setIdleMode(neoCoastMode);
@@ -37,6 +38,7 @@ public class shooter extends SubsystemBase
     // The motors' inversion are defined here...
     leftShooter.setInverted(counterClockWise);
     rightShooter.setInverted(clockWise);
+  
   }
 
   /** Use to set the shooter's output... */
@@ -44,6 +46,11 @@ public class shooter extends SubsystemBase
   {
     //leftShooter.set(output);
     //rightShooter.set(output);
+<<<<<<< Updated upstream
+=======
+  
+
+>>>>>>> Stashed changes
 
     leftShooter.set(output);
     rightShooter.set(output);

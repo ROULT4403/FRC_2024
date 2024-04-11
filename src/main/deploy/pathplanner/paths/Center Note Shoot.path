@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.5,
+        "x": 2.68,
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1,
+        "x": 2.2800000000000002,
         "y": 5.55
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "CENTERPAPU"
     },
     {
       "anchor": {
-        "x": 1.61,
+        "x": 1.6,
         "y": 5.55
       },
       "prevControl": {
-        "x": 2.370000000000001,
+        "x": 2.360000000000001,
         "y": 5.55
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "CenterPoint Final nomover"
+      "linkedName": "DONOTCHANGETHIS IS THE CENTER WAYPOINT"
     }
   ],
   "rotationTargets": [],

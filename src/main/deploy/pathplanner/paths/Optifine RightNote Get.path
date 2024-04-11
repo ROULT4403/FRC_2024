@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3921973789893525,
-        "y": 5.537577201280529
+        "x": 1.6,
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4276041344875483,
-        "y": 5.500598388584165
+        "x": 2.6360668810070775,
+        "y": 5.55
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "DONOTCHANGETHIS IS THE CENTER WAYPOINT"
     },
     {
       "anchor": {
-        "x": 2.9194833547590706,
-        "y": 4.443052752823937
+        "x": 3.2755104832400748,
+        "y": 3.1258730572193847
       },
       "prevControl": {
-        "x": 2.6236528531881578,
-        "y": 5.284320741666221
+        "x": 2.3604038073479066,
+        "y": 3.1258730572193847
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "rightgetend"
+      "linkedName": "UWUWUWUWU"
     }
   ],
   "rotationTargets": [],

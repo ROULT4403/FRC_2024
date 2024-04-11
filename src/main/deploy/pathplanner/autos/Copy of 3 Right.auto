@@ -12,41 +12,15 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Copy of CenterNote Get"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
+            "pathName": "Optifine RightNote Get"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Center Note Shoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "RightNote Get"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "RightNote Shoot"
+            "pathName": "Optifine rshoot"
           }
         }
       ]

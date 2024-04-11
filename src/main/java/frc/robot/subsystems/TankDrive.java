@@ -59,7 +59,6 @@ public class TankDrive extends SubsystemBase
     followLeft.setIdleMode(neoBrakeMode);
     leaderRight.setIdleMode(neoBrakeMode);
     followRight.setIdleMode(neoBrakeMode);
-
     // The motor groups are defined here...
     followLeft.follow(leaderLeft);
     followRight.follow(leaderRight);

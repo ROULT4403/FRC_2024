@@ -57,8 +57,13 @@ public class RobotContainer
   private static final Trigger outtake = mechController.leftTrigger();
   private static final Trigger feed = mechController.rightBumper();
 
+<<<<<<< Updated upstream
   private static final Trigger ampReady = mechController.povRight();
   private static final Trigger ampBack = mechController.povLeft();
+=======
+  private static final Trigger amp = chassisController.povRight().or(mechController.povRight());
+  private static final Trigger ampBack = chassisController.povLeft().or(mechController.povLeft());
+>>>>>>> Stashed changes
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer()

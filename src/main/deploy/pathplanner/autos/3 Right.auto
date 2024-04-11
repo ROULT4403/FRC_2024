@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.25,
+      "x": 1.39,
       "y": 5.55
     },
     "rotation": 0.0
@@ -148,15 +148,15 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "named",
+                      "type": "wait",
                       "data": {
-                        "name": "WristDown"
+                        "waitTime": 0.25
                       }
                     },
                     {
-                      "type": "wait",
+                      "type": "named",
                       "data": {
-                        "waitTime": 0.35
+                        "name": "WristDown"
                       }
                     },
                     {

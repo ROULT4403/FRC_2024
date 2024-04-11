@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.35,
+      "x": 1.39,
       "y": 5.55
     },
     "rotation": 0
@@ -84,8 +84,9 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
+<<<<<<< Updated upstream
             "commands": [
               {
                 "type": "sequential",
@@ -132,6 +133,21 @@
                 }
               }
             ]
+=======
+            "pathName": "Center Note Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootOn"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.8
+>>>>>>> Stashed changes
           }
         },
         {
@@ -242,6 +258,12 @@
           "type": "named",
           "data": {
             "name": "WristOff"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.1
           }
         },
         {
