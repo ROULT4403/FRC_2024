@@ -17,7 +17,7 @@ public class AutoConfig extends SubsystemBase {
   public void setNamedCommands(){
     //Named Commands
     NamedCommands.registerCommand("i_OFF",new InstantCommand(() -> RobotContainer.intake.activate(0), RobotContainer.intake).withTimeout(.1));
-    NamedCommands.registerCommand("i_IN",new InstantCommand(() -> RobotContainer.intake.activate(.45), RobotContainer.intake).withTimeout(.1));
+    NamedCommands.registerCommand("i_IN",new InstantCommand(() -> RobotContainer.intake.activate(.5), RobotContainer.intake).withTimeout(.1));
     NamedCommands.registerCommand("ShootOff",new InstantCommand(() ->RobotContainer.shooter.shoot(0), RobotContainer.shooter).withTimeout(.1));
     NamedCommands.registerCommand("WristDown", new RunCommand(()-> RobotContainer.wrist.moveWrist(-.3), RobotContainer.wrist).withTimeout(0.3));
     NamedCommands.registerCommand("IntakeOut",new InstantCommand(() -> RobotContainer.intake.activate(-.5), RobotContainer.intake).withTimeout(.1));

@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.25,
+      "x": 1.39,
       "y": 5.55
     },
     "rotation": 0.0
@@ -64,13 +64,31 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.3
+                        "waitTime": 0.4
                       }
                     },
                     {
                       "type": "path",
                       "data": {
                         "pathName": "CenterNote Get"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "i_IN"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.8
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "i_OFF"
                       }
                     }
                   ]
@@ -148,15 +166,15 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "named",
+                      "type": "wait",
                       "data": {
-                        "name": "WristDown"
+                        "waitTime": 0.25
                       }
                     },
                     {
-                      "type": "wait",
+                      "type": "named",
                       "data": {
-                        "waitTime": 0.35
+                        "name": "WristDown"
                       }
                     },
                     {

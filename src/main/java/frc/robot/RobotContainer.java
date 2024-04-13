@@ -13,8 +13,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.ArmPID;
-import frc.robot.commands.TargetRPM;
 import frc.robot.subsystems.AutoConfig;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
@@ -50,7 +48,7 @@ public class RobotContainer
   public static final XboxController rumbleMechController = mechController.getHID();
 
   //The driver's triggers are defined here...
-  private static final Trigger take = mechController.a().or(chassisController.b());
+  private static final Trigger take = chassisController.a().or(chassisController.b());
   private static final Trigger climberUp = chassisController.povUp().or(mechController.povUp());
   private static final Trigger climberDown = chassisController.povDown();
   private static final Trigger saveWrist = chassisController.x();
@@ -59,8 +57,8 @@ public class RobotContainer
   private static final Trigger outtake = mechController.leftTrigger();
   private static final Trigger feed = mechController.rightBumper();
 
-  private static final Trigger amp = chassisController.povRight().or(mechController.povRight());
-  private static final Trigger ampBack = chassisController.povLeft();
+  private static final Trigger ampReady = mechController.povRight();
+  private static final Trigger ampBack = mechController.povLeft();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer()
@@ -78,19 +76,17 @@ public class RobotContainer
   {
 
     take.whileTrue(intake.intakeCommand(.45));
-    outtake.whileTrue(intake.outtakeCommand(-.24));
+    outtake.whileTrue(intake.outtakeCommand(-1));
     climberUp.whileTrue(climber.climbUp(.8).until(climber::climberUpSwitch));
     climberDown.whileTrue(climber.climbDown(-.6).until(climber::climberDownSwitch));
     shoot.whileTrue(shooter.shootCommand(1));
-    feed.whileTrue(shooter.shootCommand(.7)); //    amp.onTrue(new ArmPID(wrist, ));
+    feed.whileTrue(shooter.shootCommand(.6));
 
-        //amp.onTrue(new ArmPID(wrist, -0.232398-.02));
-        amp.onTrue(new ArmPID(wrist,  (-0.25)));
+   // saveWrist.whileTrue(wrist.wristCommand(.3));
+    //saveWrist.whileFalse(wrist.wristCommand(0));
 
-        ampBack.onTrue(new ArmPID(wrist, 0));
-
-    lowWrist.whileTrue(wrist.wristCommand((-.4)));
-    saveWrist.whileTrue(wrist.wristCommand((.35)));
+   // lowWrist.onTrue(wrist.wristCommand(-.3));
+  //  lowWrist.onFalse(wrist.wristCommand(0));
     //ampReady.onTrue(wrist.ampAdjusterCommand(.4).withTimeout(.5));
     //ampBack.onTrue(wrist.ampAdjusterCommand(-.4).withTimeout(.5));
 
