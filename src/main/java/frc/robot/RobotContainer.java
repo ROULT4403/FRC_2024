@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.ArmPID;
 import frc.robot.subsystems.AutoConfig;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
@@ -57,7 +58,7 @@ public class RobotContainer
   private static final Trigger outtake = mechController.leftTrigger();
   private static final Trigger feed = mechController.rightBumper();
 
-  private static final Trigger ampReady = mechController.povRight();
+  private static final Trigger amp = mechController.povRight().or(chassisController.povRight());
   private static final Trigger ampBack = mechController.povLeft();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -75,20 +76,17 @@ public class RobotContainer
   private void configureBindings()
   {
 
-    take.whileTrue(intake.intakeCommand(.45));
-    outtake.whileTrue(intake.outtakeCommand(-1));
+    take.whileTrue(intake.intakeCommand(.3));
+    outtake.whileTrue(intake.outtakeCommand(-.255));
     climberUp.whileTrue(climber.climbUp(.8).until(climber::climberUpSwitch));
     climberDown.whileTrue(climber.climbDown(-.6).until(climber::climberDownSwitch));
     shoot.whileTrue(shooter.shootCommand(1));
     feed.whileTrue(shooter.shootCommand(.6));
+    amp.onTrue(new ArmPID(wrist, -0.232398-.02));
+    ampBack.onTrue(new ArmPID(wrist, 0));
+    saveWrist.whileTrue(wrist.wristCommand(.3));
+    lowWrist.whileTrue(wrist.wristCommand(-.3));
 
-   // saveWrist.whileTrue(wrist.wristCommand(.3));
-    //saveWrist.whileFalse(wrist.wristCommand(0));
-
-   // lowWrist.onTrue(wrist.wristCommand(-.3));
-  //  lowWrist.onFalse(wrist.wristCommand(0));
-    //ampReady.onTrue(wrist.ampAdjusterCommand(.4).withTimeout(.5));
-    //ampBack.onTrue(wrist.ampAdjusterCommand(-.4).withTimeout(.5));
 
 
   }

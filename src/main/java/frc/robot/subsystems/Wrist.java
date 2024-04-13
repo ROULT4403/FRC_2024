@@ -50,8 +50,7 @@ public class Wrist extends SubsystemBase
   private final CANSparkMax wrist = new CANSparkMax(3, neoMotorType);
 
   // The wrist's encoder is defined here...
-  private final DutyCycleEncoder wristEncoder = new DutyCycleEncoder(encoderChannels[4]);
-
+  private final Encoder wristEncoder = new Encoder(2,3);
 
   /** Creates a new WristPID. */
   public Wrist()
@@ -63,7 +62,7 @@ public class Wrist extends SubsystemBase
     wrist.setInverted(clockWise);
 
     // The encoders' distance per rotation are defined here...
-    wristEncoder.setDistancePerRotation(wristDistancePerRotation);
+    wristEncoder.setDistancePerPulse((2 * Math.PI)/8192);
   }
 
   /** Use to set the wrist's output... */
@@ -72,6 +71,8 @@ public class Wrist extends SubsystemBase
     wrist.set(output);
   }
 
+  public Command wristCommand(double output){
+    return startEnd(() -> moveWrist(output), () ->moveWrist(0));}
   public void rumbleAction(CommandXboxController chassis,XboxController rumblemechcontroller){
   if (!chassis.x().getAsBoolean()){
     rumblemechcontroller.setRumble(RumbleType.kLeftRumble, 0);
@@ -89,9 +90,7 @@ public class Wrist extends SubsystemBase
     return wristEncoder.getDistance();
   }
 
-public void wristCommand(double speed){
-  wrist.set(speed);
-}
+
 
  
 public void rumbleAction(CommandXboxController chassis,CommandXboxController mech){
