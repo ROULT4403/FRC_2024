@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 2.5755193852730045,
+        "x": 2.5838279400225086,
         "y": 5.55
       },
       "prevControl": {
-        "x": 1.8155193852730045,
+        "x": 1.8238279400225086,
         "y": 5.55
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "CENTERCENTERGET"
     }
   ],
   "rotationTargets": [],
@@ -47,7 +47,7 @@
             {
               "type": "wait",
               "data": {
-                "waitTime": 0.75
+                "waitTime": 1.0
               }
             },
             {

@@ -140,7 +140,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Optifine RightNote Get"
+                  "pathName": "LeftNote Get"
                 }
               },
               {
@@ -222,7 +222,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Optifine rshoot"
+            "pathName": "LeftNote Shoot"
           }
         },
         {

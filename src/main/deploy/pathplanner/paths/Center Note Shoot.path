@@ -3,24 +3,24 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.5,
+        "x": 2.5838279400225086,
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1,
+        "x": 2.1838279400225087,
         "y": 5.55
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "CENTERCENTERGET"
     },
     {
       "anchor": {
-        "x": 1.61,
+        "x": 1.3999866641309033,
         "y": 5.55
       },
       "prevControl": {
-        "x": 2.370000000000001,
+        "x": 2.1599866641309045,
         "y": 5.55
       },
       "nextControl": null,

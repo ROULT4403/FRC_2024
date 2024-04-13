@@ -40,7 +40,11 @@ public class Intake extends SubsystemBase
     intake.set(output);
   }
     public Command intakeCommand(double output) {
-      return startEnd(() -> activate(output), () ->activate(0.0)).until(this::getMeasurement);
+      return startEnd(() -> activate(output), () ->activate(0.0)).until(this::colorgetMeasurement);
+
+}
+public Command autoIntakeCommand(double output) {
+  return startEnd(() -> activate(output), () ->activate(output)).until(this::colorgetMeasurement);
 
 }
 
@@ -52,17 +56,17 @@ public class Intake extends SubsystemBase
   @Override
   public void periodic()
   {
-    if(getMeasurement() && RobotContainer.chassisController.b().getAsBoolean()){
+    if(colorgetMeasurement() && RobotContainer.chassisController.b().getAsBoolean()){
       RobotContainer.chassisController.getHID().setRumble(RumbleType.kBothRumble, .6);
     }
     else{RobotContainer.chassisController.getHID().setRumble(RumbleType.kBothRumble, 0);
     }
 
     // This method will be called once per scheduler run
-    SmartDashboard.putBoolean("Note Proximity", getMeasurement());
+    SmartDashboard.putBoolean("Note Proximity", colorgetMeasurement());
   }
 
-  private Boolean getMeasurement()
+  public Boolean colorgetMeasurement()
   {
     int proximity = colorSensor.getProximity();
     if(proximity>300){

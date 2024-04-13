@@ -67,6 +67,7 @@ public class RobotContainer
   autoConfig.setNamedCommands();
   autoChooser = AutoBuilder.buildAutoChooser();
   SmartDashboard.putData("Auto Chooser", autoChooser);
+
   tankDrive.setDefaultCommand(new RunCommand(() -> tankDrive.drive(-chassisController.getLeftY(), chassisController.getRightX()), tankDrive));
   configureBindings();
  
