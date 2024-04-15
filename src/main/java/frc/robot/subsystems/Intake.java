@@ -21,6 +21,7 @@ public class Intake extends SubsystemBase
 {
   // The intake's motor controllers are defined here...
   private final TalonFX intake = new TalonFX(talonFXIDs[0]);
+  private Boolean sensorActive = true;
 
   private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
 
@@ -47,6 +48,10 @@ public Command autoIntakeCommand(double output) {
   return startEnd(() -> activate(output), () ->activate(output)).until(this::colorgetMeasurement);
 
 }
+public void sensorControl(){
+  sensorActive = !sensorActive;
+}
+
 
     public Command outtakeCommand(double output)
     {
@@ -69,7 +74,7 @@ public Command autoIntakeCommand(double output) {
   public Boolean colorgetMeasurement()
   {
     int proximity = colorSensor.getProximity();
-    if(proximity>300){
+    if(proximity>300 && sensorActive == true){
       return true;
     }
     else return false;

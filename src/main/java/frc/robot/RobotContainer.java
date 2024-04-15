@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -57,6 +58,8 @@ public class RobotContainer
   private static final Trigger shoot = mechController.rightTrigger();
   private static final Trigger outtake = mechController.leftTrigger();
   private static final Trigger feed = mechController.rightBumper();
+  private static final Trigger intakeControl = mechController.a().or(mechController.b()).or(mechController.y()).or(mechController.x());
+
 
   private static final Trigger amp = mechController.povRight().or(chassisController.povRight());
   private static final Trigger ampBack = mechController.povLeft();
@@ -87,6 +90,8 @@ public class RobotContainer
     ampBack.onTrue(new ArmPID(wrist, 0));
     saveWrist.whileTrue(wrist.wristCommand(.3));
     lowWrist.whileTrue(wrist.wristCommand(-.3));
+    intakeControl.onTrue(new InstantCommand(()-> intake.sensorControl(), intake));
+
 
 
 
