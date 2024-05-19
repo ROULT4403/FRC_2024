@@ -9,11 +9,16 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.ElectronicConstants.*;
 import static frc.robot.Constants.ClimberConstants.*;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix6.hardware.TalonFX;
+
 public class Climber extends SubsystemBase{
   // The climber's motor controllers are defined here...
-  private final TalonFX leftClimber = new TalonFX(talonFXIDs[1]);
-  private final TalonFX rightClimber = new TalonFX(talonFXIDs[2]);
+  private final VictorSPX leftClimber = new VictorSPX(0); //Needs the IDs
+  private final VictorSPX rightClimber = new VictorSPX(0); //Needs the IDs
 
   // The climber's limit switch is defined here...
   private final DigitalInput upperSwitch = new DigitalInput(limitSwitchChannel[0]);
@@ -27,12 +32,11 @@ public class Climber extends SubsystemBase{
   public Climber()
   {
     // The motor's mode is defined here...
-    leftClimber.setNeutralMode(falconBrakeMode);
-    rightClimber.setNeutralMode(falconBrakeMode);
+    leftClimber.setNeutralMode(NeutralMode.Brake);
+    rightClimber.setNeutralMode(NeutralMode.Brake);
 
     // The motor's inversion is defined here...
     leftClimber.setInverted(clockWise); 
-    resetEncoders();
   }
 
 
@@ -58,43 +62,17 @@ public class Climber extends SubsystemBase{
   public void climb(double speed)
   {
 
-    leftClimber.set(speed);
-    rightClimber.set(speed);
-  }
-
-  public boolean climberUpSwitch(){
-    if(getMeasurement()>.0049){
-      return true;
-    }
-    else return false;
-  }
-    public boolean climberDownSwitch(){
-    if(getMeasurement()<=0){
-      return true;
-    }
-    else return false;
+    leftClimber.set(ControlMode.Velocity, speed);
+    rightClimber.set(ControlMode.Velocity, speed);
   }
  
 
   /** Use to get the climber's position... */
-  public double getMeasurement()
-  {
-    // Return the process variable measurement here
-    double leftDistance = (leftClimber.getPosition().getValueAsDouble() / climberPulse) * climberDistanceConversion;
-    double rightDistance = (rightClimber.getPosition().getValueAsDouble() / climberPulse) * climberDistanceConversion;
-    return (leftDistance + rightDistance) / 2;
-  }
 
-  public void resetEncoders()
-  {
-    leftClimber.setPosition(0);
-    rightClimber.setPosition(0);
-  }
 
   @Override
   public void periodic()
   {
-    SmartDashboard.putNumber("Climber Pos", getMeasurement());
     SmartDashboard.putBoolean("UpperSwitch Status", upperSwitch.get());
     SmartDashboard.putBoolean("LowerSwitch Status", lowerSwitch.get());
 

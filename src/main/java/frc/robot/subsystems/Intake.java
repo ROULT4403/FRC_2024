@@ -4,6 +4,9 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.ColorSensorV3;
 
@@ -20,7 +23,7 @@ import static frc.robot.Constants.ElectronicConstants.*;
 public class Intake extends SubsystemBase
 {
   // The intake's motor controllers are defined here...
-  private final TalonFX intake = new TalonFX(talonFXIDs[0]);
+  private final VictorSPX intake = new VictorSPX(0); //Needs IDs
   private Boolean sensorActive = true;
 
   private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
@@ -29,7 +32,7 @@ public class Intake extends SubsystemBase
   public Intake()
   {
     // The motor's mode is defined here...
-    intake.setNeutralMode(falconBrakeMode);
+    intake.setNeutralMode(NeutralMode.Brake);
 
     // The motor's inversion is defined here...
     intake.setInverted(clockWise);
@@ -38,7 +41,7 @@ public class Intake extends SubsystemBase
   /** Activates the intake to take the game piece. */
   public void activate(double output)
   {
-    intake.set(output);
+    intake.set(ControlMode.PercentOutput, output);
   }
     public Command intakeCommand(double output) {
       return startEnd(() -> activate(output), () ->activate(0.0)).until(this::colorgetMeasurement);

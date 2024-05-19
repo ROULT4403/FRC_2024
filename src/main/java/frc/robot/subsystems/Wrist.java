@@ -12,6 +12,8 @@ import static edu.wpi.first.units.Units.VoltsPerMeterPerSecond;
 import static edu.wpi.first.units.Units.Radian;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.motorcontrol.Victor;
+import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
@@ -28,7 +30,9 @@ import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
 import edu.wpi.first.units.*;
 
-
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -41,13 +45,15 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.RobotContainer;
 
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 import static frc.robot.Constants.ElectronicConstants.*;
 import static frc.robot.Constants.WristConstants.*;
 
 public class Wrist extends SubsystemBase
 {
   // The wrist's motor controller is defined here...
-  private final CANSparkMax wrist = new CANSparkMax(3, neoMotorType);
+  private final VictorSPX wrist = new VictorSPX(0); //Needs the IDs
 
   // The wrist's encoder is defined here...
   private final Encoder wristEncoder = new Encoder(2,3);
@@ -56,10 +62,10 @@ public class Wrist extends SubsystemBase
   public Wrist()
   {
     // The motor's mode is defined here...
-    wrist.setIdleMode(neoBrakeMode);
+    wrist.setNeutralMode(NeutralMode.Brake);
 
     // The motor's inversion is defined here...
-    wrist.setInverted(clockWise);
+    wrist.setInverted(false);
 
     // The encoders' distance per rotation are defined here...
     wristEncoder.setDistancePerPulse((2 * Math.PI)/8192);
@@ -68,7 +74,7 @@ public class Wrist extends SubsystemBase
   /** Use to set the wrist's output... */
   public void moveWrist(double output)
   {
-    wrist.set(output);
+    wrist.set(ControlMode.PercentOutput, output);
   }
 
   public Command wristCommand(double output){

@@ -14,6 +14,7 @@ import edu.wpi.first.units.MutableMeasure;
 import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,25 +22,31 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.RobotContainer;
 
+import edu.wpi.first.wpilibj.Encoder;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 import static frc.robot.Constants.ElectronicConstants.*;
 
 public class shooter extends SubsystemBase
 {
   // The shooter's motor controllers are defined here...
-  private final CANSparkMax leftShooter = new CANSparkMax(sparkMaxIDs[4], neoMotorType);
-  private final CANSparkMax rightShooter = new CANSparkMax(sparkMaxIDs[5], neoMotorType);
+  private final VictorSPX leftShooter = new VictorSPX(0); //Needs the IDs
+  private final VictorSPX rightShooter = new VictorSPX(0); //Needs the IDs
 
   // The shooter's encoders are defined here...
-  private final RelativeEncoder leftEncoder = leftShooter.getEncoder();
-  private final RelativeEncoder rightEncoder = rightShooter.getEncoder();
+  private final Encoder leftEncoder = new Encoder(0, 0); //Needs the IDs
+  private final Encoder rightEncoder = new Encoder(0, 0); //Needs the IDs
 
 
   /** Creates a new Shooter. */
   public shooter()
   {
     // The motors' modes are defined here...
-    leftShooter.setIdleMode(neoCoastMode);
-    rightShooter.setIdleMode(neoCoastMode);
+    leftShooter.setNeutralMode(NeutralMode.Brake);
+    rightShooter.setNeutralMode(NeutralMode.Brake);
     // The motors' inversion are defined here...
     leftShooter.setInverted(counterClockWise);
     rightShooter.setInverted(clockWise);
@@ -50,12 +57,11 @@ public class shooter extends SubsystemBase
   {
     //leftShooter.set(output);
     //rightShooter.set(output);
-    leftShooter.setSmartCurrentLimit(40);
-    rightShooter.setSmartCurrentLimit(40);
 
-
-    leftShooter.set(output);
-    rightShooter.set(output);
+    //Didn´t find a way to limit current on a VICTOR SPX
+;
+    leftShooter.set(ControlMode.PercentOutput, output);
+    rightShooter.set(ControlMode.PercentOutput, output);
   }
  public Command shootCommand(double output){
 
@@ -74,8 +80,8 @@ public void rumbleShooter(XboxController controller){
   public double getMeasurement()
   {
     // Return the process variable measurement here...
-    double leftVelocity = leftEncoder.getVelocity();
-    double righVelocity = rightEncoder.getVelocity();
+    double leftVelocity = leftShooter.getSelectedSensorVelocity();
+    double righVelocity = rightShooter.getSelectedSensorVelocity();
     return (leftVelocity + righVelocity) / 2;
   }
 
