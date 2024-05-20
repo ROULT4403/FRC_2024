@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.XboxController;
@@ -20,18 +19,18 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.RobotContainer;
-
 import static frc.robot.Constants.ElectronicConstants.*;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 public class shooter extends SubsystemBase
 {
   // The shooter's motor controllers are defined here...
-  private final CANSparkMax leftShooter = new CANSparkMax(sparkMaxIDs[4], neoMotorType);
-  private final CANSparkMax rightShooter = new CANSparkMax(sparkMaxIDs[5], neoMotorType);
+  private final VictorSPX leftShooter = new VictorSPX(sparkMaxIDs[4], neoMotorType);
+  private final VictorSPX rightShooter = new VictorSPX(sparkMaxIDs[5], neoMotorType);
 
   // The shooter's encoders are defined here...
-  private final RelativeEncoder leftEncoder = leftShooter.getEncoder();
-  private final RelativeEncoder rightEncoder = rightShooter.getEncoder();
 
 
   /** Creates a new Shooter. */

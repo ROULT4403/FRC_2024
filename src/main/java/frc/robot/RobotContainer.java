@@ -15,9 +15,6 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArmPID;
-import frc.robot.subsystems.AutoConfig;
-import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.shooter;
 import frc.robot.subsystems.TankDrive;
 import frc.robot.subsystems.Wrist;
@@ -38,11 +35,8 @@ public class RobotContainer
   private final SendableChooser<Command> autoChooser;
 
   public static final TankDrive tankDrive = new TankDrive();
-  public static final Climber climber = new Climber();
   public static final Wrist wrist = new Wrist();
-  public static final Intake intake = new Intake();
   public static final shooter shooter = new shooter();
-  public static final AutoConfig autoConfig = new AutoConfig();
 
   // The driver's controllers are defined here...
   public static final CommandXboxController chassisController = new CommandXboxController(controllersPort[0]);
@@ -67,7 +61,6 @@ public class RobotContainer
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer()
   {
-  autoConfig.setNamedCommands();
   autoChooser = AutoBuilder.buildAutoChooser();
   SmartDashboard.putData("Auto Chooser", autoChooser);
 
@@ -80,17 +73,12 @@ public class RobotContainer
   private void configureBindings()
   {
 
-    take.whileTrue(intake.intakeCommand(.3));
-    outtake.whileTrue(intake.outtakeCommand(-.255));
-    climberUp.whileTrue(climber.climbUp(.8).until(climber::climberUpSwitch));
-    climberDown.whileTrue(climber.climbDown(-.6).until(climber::climberDownSwitch));
     shoot.whileTrue(shooter.shootCommand(1));
     feed.whileTrue(shooter.shootCommand(.6));
     amp.onTrue(new ArmPID(wrist, -0.232398-.02));
     ampBack.onTrue(new ArmPID(wrist, 0));
     saveWrist.whileTrue(wrist.wristCommand(.3));
     lowWrist.whileTrue(wrist.wristCommand(-.3));
-    intakeControl.onTrue(new InstantCommand(()-> intake.sensorControl(), intake));
 
 
 
