@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArmPID;
 import frc.robot.subsystems.AutoConfig;
-import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.shooter;
 import frc.robot.subsystems.TankDrive;
@@ -38,7 +37,6 @@ public class RobotContainer
   private final SendableChooser<Command> autoChooser;
 
   public static final TankDrive tankDrive = new TankDrive();
-  public static final Climber climber = new Climber();
   public static final Wrist wrist = new Wrist();
   public static final Intake intake = new Intake();
   public static final shooter shooter = new shooter();
@@ -51,8 +49,6 @@ public class RobotContainer
 
   //The driver's triggers are defined here...
   private static final Trigger take = chassisController.a().or(chassisController.b());
-  private static final Trigger climberUp = chassisController.povUp().or(mechController.povUp());
-  private static final Trigger climberDown = chassisController.povDown();
   private static final Trigger saveWrist = chassisController.x();
   private static final Trigger lowWrist = chassisController.y();
   private static final Trigger shoot = mechController.rightTrigger();
@@ -82,8 +78,6 @@ public class RobotContainer
 
     take.whileTrue(intake.intakeCommand(.3));
     outtake.whileTrue(intake.outtakeCommand(-.255));
-    climberUp.whileTrue(climber.climbUp(.8).until(climber::climberUpSwitch));
-    climberDown.whileTrue(climber.climbDown(-.6).until(climber::climberDownSwitch));
     shoot.whileTrue(shooter.shootCommand(1));
     feed.whileTrue(shooter.shootCommand(.6));
     amp.onTrue(new ArmPID(wrist, -0.232398-.02));
