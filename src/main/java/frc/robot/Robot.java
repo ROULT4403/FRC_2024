@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import frc.robot.subsystems.Wrist;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -33,8 +32,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContain
     m_robotContainer = new RobotContainer();
-    CameraServer.startAutomaticCapture(0);
     CameraServer.startAutomaticCapture(1);
+    CameraServer.addServer("http://10.44.3.11:5800");
 
    
   }

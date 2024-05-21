@@ -14,10 +14,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.ArmPID;
 import frc.robot.subsystems.shooter;
 import frc.robot.subsystems.TankDrive;
-import frc.robot.subsystems.Wrist;
 import static frc.robot.Constants.OperatorConstants.*;
 import com.pathplanner.lib.auto.AutoBuilder;
 
@@ -35,7 +33,6 @@ public class RobotContainer
   private final SendableChooser<Command> autoChooser;
 
   public static final TankDrive tankDrive = new TankDrive();
-  public static final Wrist wrist = new Wrist();
   public static final shooter shooter = new shooter();
 
   // The driver's controllers are defined here...
@@ -72,13 +69,10 @@ public class RobotContainer
     /** Use this method to define your trigger->command mappings. */
   private void configureBindings()
   {
-
+    saveWrist.whileTrue(new RunCommand(() -> tankDrive.driveToTarget(),tankDrive));
     shoot.whileTrue(shooter.shootCommand(1));
     feed.whileTrue(shooter.shootCommand(.6));
-    amp.onTrue(new ArmPID(wrist, -0.232398-.02));
-    ampBack.onTrue(new ArmPID(wrist, 0));
-    saveWrist.whileTrue(wrist.wristCommand(.3));
-    lowWrist.whileTrue(wrist.wristCommand(-.3));
+
 
 
 

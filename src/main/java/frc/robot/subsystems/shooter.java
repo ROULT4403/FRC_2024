@@ -27,8 +27,8 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 public class shooter extends SubsystemBase
 {
   // The shooter's motor controllers are defined here...
-  private final VictorSPX leftShooter = new VictorSPX(sparkMaxIDs[4], neoMotorType);
-  private final VictorSPX rightShooter = new VictorSPX(sparkMaxIDs[5], neoMotorType);
+  private final VictorSPX leftShooter = new VictorSPX(0);
+  private final VictorSPX rightShooter = new VictorSPX(1);
 
   // The shooter's encoders are defined here...
 
@@ -37,8 +37,8 @@ public class shooter extends SubsystemBase
   public shooter()
   {
     // The motors' modes are defined here...
-    leftShooter.setIdleMode(neoCoastMode);
-    rightShooter.setIdleMode(neoCoastMode);
+    leftShooter.setNeutralMode(NeutralMode.Brake);
+    rightShooter.setNeutralMode(NeutralMode.Brake);
     // The motors' inversion are defined here...
     leftShooter.setInverted(counterClockWise);
     rightShooter.setInverted(clockWise);
@@ -49,42 +49,23 @@ public class shooter extends SubsystemBase
   {
     //leftShooter.set(output);
     //rightShooter.set(output);
-    leftShooter.setSmartCurrentLimit(40);
-    rightShooter.setSmartCurrentLimit(40);
 
 
-    leftShooter.set(output);
-    rightShooter.set(output);
+
+    leftShooter.set(ControlMode.PercentOutput,output);
+    rightShooter.set(ControlMode.PercentOutput, output);
   }
  public Command shootCommand(double output){
 
           return startEnd(() -> shoot(output), () ->shoot(0.0));
 
   }
-public void rumbleShooter(XboxController controller){
-  if (getMeasurement()>= 3500){
-    controller.setRumble(RumbleType.kRightRumble, .6);
-  }
-  else{
-    controller.setRumble(RumbleType.kRightRumble, 0);
 
-  }}
   /** Use to get the shooter's velocity... */
-  public double getMeasurement()
-  {
-    // Return the process variable measurement here...
-    double leftVelocity = leftEncoder.getVelocity();
-    double righVelocity = rightEncoder.getVelocity();
-    return (leftVelocity + righVelocity) / 2;
-  }
+
 
   @Override
   public void periodic()
   {
-    rumbleShooter(RobotContainer.rumbleMechController);
-
-    // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Shooter Vel", getMeasurement());
-
   }
 }

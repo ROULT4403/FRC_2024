@@ -11,10 +11,13 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
@@ -27,6 +30,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 
 import static frc.robot.Constants.TankDriveConstants.*;
@@ -36,14 +40,14 @@ public class TankDrive extends SubsystemBase
 {
   
   // The tank drive's motor controllers are defined here...
-  private final CANSparkMax leaderLeft = new CANSparkMax(sparkMaxIDs[0], neoMotorType);
-  private final CANSparkMax followLeft = new CANSparkMax(sparkMaxIDs[1], neoMotorType);
-  private final CANSparkMax leaderRight = new CANSparkMax(sparkMaxIDs[2], neoMotorType);
-  private final CANSparkMax followRight = new CANSparkMax(sparkMaxIDs[3], neoMotorType);
+  private final CANSparkMax leaderLeft = new CANSparkMax(6, neoMotorType);
+  private final CANSparkMax followLeft = new CANSparkMax(1, neoMotorType);
+  private final CANSparkMax leaderRight = new CANSparkMax(3, neoMotorType);
+  private final CANSparkMax followRight = new CANSparkMax(5, neoMotorType);
 
   // The tank drive's encoders/sensors are defined here...
-  private final Encoder leftEncoder = new Encoder(6, 7);
-  private final Encoder rightEncoder = new Encoder(4, 5);
+  private final Encoder leftEncoder = new Encoder(2, 3);
+  private final Encoder rightEncoder = new Encoder(0, 1);
   private final AHRS navx = new AHRS(navxPort);
 
   // The differential drive is defined here...
@@ -51,13 +55,14 @@ public class TankDrive extends SubsystemBase
     private final DifferentialDriveOdometry odometry;
 
   private final Field2d field = new Field2d();
-
+  private final AprilTagFieldLayout aprilLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2024Crescendo);
   private final DifferentialDriveKinematics m_kinematics = new DifferentialDriveKinematics(0.75);
-
-
+  private final Pose3d tagTestPose = aprilLayout.getTagPose(5).get();
+   
   /** Creates a new Tank Drive. */
   public TankDrive()
   {
+
     // The motors' modes are defined here...
     leaderLeft.setIdleMode(neoBrakeMode);
     followLeft.setIdleMode(neoBrakeMode);
@@ -115,6 +120,7 @@ public class TankDrive extends SubsystemBase
   /** Use to drive the chassis... */
   public void drive(double speedJoystick, double rotJoystick)
   {
+
     double speed = speedJoystick;
     double rot = rotJoystick;
 
@@ -170,7 +176,7 @@ public class TankDrive extends SubsystemBase
 
   public Pose2d getPose()
   {
-    return odometry.getPoseMeters();
+    return m_poseEstimator.getEstimatedPosition();
   }
 
   public void resetOdometry(Pose2d pose)
@@ -184,9 +190,9 @@ public class TankDrive extends SubsystemBase
   }
   public void megatagPosition(){
     boolean doRejectUpdate = true;
-     LimelightHelpers.SetRobotOrientation("limelight", m_poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
-      LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
-      if(Math.abs(navx.getRate()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
+    LimelightHelpers.SetRobotOrientation("limelight", m_poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
+    LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+    if(Math.abs(navx.getRate()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
       {
         doRejectUpdate = true;
       }
@@ -196,26 +202,36 @@ public class TankDrive extends SubsystemBase
       }
       if(!doRejectUpdate)
       {
-        m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+        m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.1,.1,1));
         m_poseEstimator.addVisionMeasurement(
             mt2.pose,
-            mt2.timestampSeconds);}}
+            mt2.timestampSeconds);
+      }
+  }
+  public void driveToTarget(){
+    double kP = .05;
+    double targetingForwardSpeed = LimelightHelpers.getTY("limelight") * kP;
+    targetingForwardSpeed *= -3;
+    drive(targetingForwardSpeed,0);
 
+
+  }
   
   public void updateOdometry(){
-        odometry.update(navx.getRotation2d(), leftEncoder.getDistance(), rightEncoder.getDistance());
         m_poseEstimator.update(navx.getRotation2d(), rightEncoder.getDistance(),leftEncoder.getDistance());
         megatagPosition();
 
   }
   
-
+  
   @Override
   public void periodic()
   {
     // This method will be called once per scheduler run
     updateOdometry();
     field.setRobotPose(getPose());
+    SmartDashboard.putNumber("Target ID", LimelightHelpers.getFiducialID("limelight"));
+    SmartDashboard.putNumber("Targed X", LimelightHelpers.getTX("limelight"));
 
     SmartDashboard.putNumber("Distance", getDistance());
     SmartDashboard.putNumber("Pos X", getPose().getX());
