@@ -11,7 +11,9 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -24,6 +26,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.LimelightHelpers;
 
 import static frc.robot.Constants.TankDriveConstants.*;
 import static frc.robot.Constants.ElectronicConstants.*;
@@ -165,7 +168,9 @@ public class TankDrive extends SubsystemBase
   {
     return odometry.getPoseMeters();
   }
-
+  
+  
+  public final DifferentialDrivePoseEstimator m_PoseEstimator = new DifferentialDrivePoseEstimator(tankKinematics, navx.getRotation2d(), leftEncoder.getDistance(), rightEncoder.getDistance(), new Pose2d());
   public void resetOdometry(Pose2d pose)
   {
     /* 
@@ -175,10 +180,33 @@ public class TankDrive extends SubsystemBase
     reset();
     odometry.resetPosition(Rotation2d.fromDegrees(navx.getYaw()),leftEncoder.getDistance(), rightEncoder.getDistance(), pose);
   }
+  public void megatagPosition(){
+    boolean doRejectUpdate = true;
+    LimelightHelpers.SetRobotOrientation("limelight", m_PoseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
+    LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+    if(Math.abs(navx.getRate()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
+      {
+        doRejectUpdate = true;
+      }
+      if(mt2.tagCount == 0)
+      {
+        doRejectUpdate = true;
+      }
+      if(!doRejectUpdate)
+      {
+        m_PoseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.1,.1,1));
+        m_PoseEstimator.addVisionMeasurement(
+            mt2.pose,
+            mt2.timestampSeconds);
+      }
+  }
 
   @Override
   public void periodic()
   {
+    megatagPosition();
+    m_PoseEstimator.update(
+      navx.getRotation2d(), leftEncoder.getDistance(), rightEncoder.getDistance());
     // This method will be called once per scheduler run
     odometry.update(navx.getRotation2d(), leftEncoder.getDistance(), rightEncoder.getDistance());
     field.setRobotPose(getPose());
