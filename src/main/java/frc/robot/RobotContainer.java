@@ -50,7 +50,8 @@ public class RobotContainer
   public static final XboxController rumbleMechController = mechController.getHID();
 
   //The driver's triggers are defined here...
-  private static final Trigger take = chassisController.a().or(chassisController.b());
+  private static final Trigger take = chassisController.a();
+  private static final Trigger rotToAngle = chassisController.b();
   private static final Trigger climberUp = chassisController.povUp().or(mechController.povUp());
   private static final Trigger climberDown = chassisController.povDown();
   private static final Trigger saveWrist = chassisController.x();
@@ -63,6 +64,7 @@ public class RobotContainer
 
   private static final Trigger amp = mechController.povRight().or(chassisController.povRight());
   private static final Trigger ampBack = mechController.povLeft();
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer()
@@ -91,6 +93,7 @@ public class RobotContainer
     saveWrist.whileTrue(wrist.wristCommand(.3));
     lowWrist.whileTrue(wrist.wristCommand(-.3));
     intakeControl.onTrue(new InstantCommand(()-> intake.sensorControl(), intake));
+    rotToAngle.whileTrue(new InstantCommand(()-> tankDrive.rotToTarget(), tankDrive));
 
 
 
